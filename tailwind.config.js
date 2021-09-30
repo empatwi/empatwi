@@ -6,6 +6,9 @@ module.exports = {
       borderRadius: {
         '16px': '16px',
       },
+      boxShadow: {
+        DEFAULT: '0 4px 4px rgba(0, 0, 0, 0.25)',
+      },
       borderWidth: {
         1: '1px',
       },

@@ -16,7 +16,7 @@ const ShadowBox = ({ children, color }: ShadowBoxProps): JSX.Element => {
     color === ColorOptions.GREEN ? 'bg-green-light' : 'bg-white';
   return (
     <div
-      className={`border-gray border-1 ${background} rounded-16px py-24px px-16px`}
+      className={`border-gray border-1 ${background} rounded-16px py-24px px-16px shadow`}
     >
       {children}
     </div>
