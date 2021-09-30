@@ -20,6 +20,9 @@ module.exports = {
       fontFamily: {
         oxygen: ['Oxygen', 'sans-serif'],
       },
+      fontSize: {
+        '36px': '36px',
+      },
       padding: {
         '16px': '16px',
         '24px': '24px',
