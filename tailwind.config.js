@@ -3,6 +3,12 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      borderRadius: {
+        '16px': '16px',
+      },
+      borderWidth: {
+        1: '1px',
+      },
       colors: {
         gray: '6A6A6A',
         green: {
@@ -10,6 +16,10 @@ module.exports = {
           DEFAULT: '#82BC4B',
         },
         red: '#BC4C4B',
+      },
+      padding: {
+        '16px': '16px',
+        '24px': '24px',
       },
       width: {
         '48%': '48%',
