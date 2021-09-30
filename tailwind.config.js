@@ -29,6 +29,7 @@ module.exports = {
       padding: {
         '16px': '16px',
         '24px': '24px',
+        '56px': '56px',
       },
       width: {
         '48%': '48%',
