@@ -17,6 +17,9 @@ module.exports = {
         },
         red: '#BC4C4B',
       },
+      fontFamily: {
+        oxygen: ['Oxygen', 'sans-serif'],
+      },
       padding: {
         '16px': '16px',
         '24px': '24px',
