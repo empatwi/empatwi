@@ -3,24 +3,22 @@ import { ColorOptions } from '../constants';
 type ColorOptionsType = `${ColorOptions}`;
 
 type ShadowBoxProps = {
-  children: React.ReactNode;
   color?: ColorOptionsType;
+  text: string;
 };
 
 const defaultProps = {
   color: ColorOptions.WHITE,
 };
 
-const ShadowBox = ({ children, color }: ShadowBoxProps): JSX.Element => {
+const ShadowBox = ({ color, text }: ShadowBoxProps): JSX.Element => {
   const background =
     color === ColorOptions.GREEN ? 'bg-green-light' : 'bg-white';
 
   return (
-    <div
-      className={`${background} border-gray border-1 rounded-16px px-16px py-24px shadow`}
-    >
-      {children}
-    </div>
+    <span className={`${background} rounded-32px px-16px text-gray`}>
+      {text}
+    </span>
   );
 };
 

@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       borderRadius: {
         '16px': '16px',
+        '32px': '32px',
       },
       boxShadow: {
         DEFAULT: '0 4px 4px rgba(0, 0, 0, 0.25)',
@@ -13,7 +14,10 @@ module.exports = {
         1: '1px',
       },
       colors: {
-        gray: '6A6A6A',
+        gray: {
+          light: 'rgba(106, 106, 106, 0.5)',
+          DEFAULT: '#6A6A6A',
+        },
         green: {
           light: '#C3DDAD',
           DEFAULT: '#82BC4B',
@@ -26,7 +30,14 @@ module.exports = {
       fontSize: {
         '36px': '36px',
       },
+      height: {
+        '56px': '56px',
+      },
+      opacity: {
+        50: '0.5',
+      },
       padding: {
+        '8px': '8px',
         '16px': '16px',
         '24px': '24px',
         '32px': '32px',

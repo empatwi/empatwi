@@ -1,4 +1,4 @@
-import ShadowBox from './components/ShadowBox';
+import { Chip, ShadowBox } from './components';
 import { ColorOptions, Text } from './constants';
 import './index.css';
 
@@ -7,10 +7,13 @@ function App() {
     <div className="min-h-screen h-screen font-oxygen bg-white flex flex-col sm:flex-row">
       {/* Left */}
       <div className="py-16 sm:pt-88px border-gray border-b-2 sm:w-52% sm:border-b-0 sm:border-r-2">
+        {/* <div className="px-8 sm:px-88px">
+          <TextInput />
+        </div> */}
         <div className="px-4 sm:px-56px">
           <ShadowBox color={ColorOptions.GREEN}>
             <p className="header-text pb-48px">{Text.ASSUNTOS_DO_MOMENTO}</p>
-            <p>Topics</p>
+            <Chip text="test 1" />
           </ShadowBox>
         </div>
       </div>
