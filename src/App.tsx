@@ -2,6 +2,7 @@ import { Chip, ShadowBox, TextInput, TouchableIcon } from './components';
 import { ColorOptions, Text } from './constants';
 import './index.css';
 import Search from './svgs/Search';
+import { Chart } from 'react-google-charts';
 
 function App() {
   const mockChips = [
@@ -60,6 +61,32 @@ function App() {
             <p>Child</p>
             <p>Child</p>
           </ShadowBox>
+          <div className="mt-56px">
+            <Chart
+              chartType="PieChart"
+              data={[
+                ['Tweets', 'Quantidade'],
+                ['Positivo', 1],
+                ['Negativo', 9],
+              ]}
+              height="250px"
+              loader={<div>Loading Chart</div>}
+              options={{
+                backgroundColor: '#C3DDAD',
+                chartArea: { height: '90%', left: 0, width: '100%' },
+                colors: ['#82BC4B', '#BC4C4B'],
+                legend: 'none',
+                pieHole: 0.4,
+                pieSliceTextStyle: {
+                  color: '#FFFFFF',
+                  fontName: 'Oxygen',
+                  fontSize: 16,
+                },
+              }}
+              rootProps={{ 'data-testid': '3' }}
+              width="100%"
+            />
+          </div>
         </div>
       </div>
     </div>

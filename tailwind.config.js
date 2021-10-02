@@ -36,6 +36,7 @@ module.exports = {
       margin: {
         '8px': '8px',
         '16px': '16px',
+        '56px': '56px',
       },
       opacity: {
         50: '0.5',
@@ -48,6 +49,7 @@ module.exports = {
         '40px': '40px',
         '48px': '48px',
         '56px': '56px',
+        '64px': '64px',
         '72px': '72px',
         '88px': '88px',
       },
