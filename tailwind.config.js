@@ -33,6 +33,10 @@ module.exports = {
       height: {
         '56px': '56px',
       },
+      margin: {
+        '8px': '8px',
+        '16px': '16px',
+      },
       opacity: {
         50: '0.5',
       },
