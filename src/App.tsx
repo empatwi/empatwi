@@ -35,7 +35,10 @@ function App() {
             <p className="header-text pb-48px">{Text.ASSUNTOS_DO_MOMENTO}</p>
             {mockChips.map((chip, index) => {
               return (
-                <div className="inline-flex mr-16px mb-16px" key={index}>
+                <div
+                  className="inline-flex mr-16px mb-8px md:mb-16px"
+                  key={index}
+                >
                   <Chip text={`${chip}${index}`} />
                 </div>
               );
