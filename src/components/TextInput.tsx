@@ -1,5 +1,4 @@
 import { Text } from '../constants';
-import { Search } from '../svgs';
 
 type TextInputProps = {
   icon: JSX.Element;
@@ -7,7 +6,6 @@ type TextInputProps = {
 };
 
 const defaultProps = {
-  icon: <Search />,
   placeholder: Text.O_QUE_ESTAO_PENSANDO_SOBRE,
 };
 
