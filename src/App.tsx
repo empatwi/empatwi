@@ -20,9 +20,16 @@ function App() {
       {/* Left */}
       <div className="py-16 sm:pt-88px border-gray border-b-2 sm:w-52% sm:border-b-0 sm:border-r-2">
         <div className="px-16px md:px-88px">
-          <TextInput />
+          <TextInput
+            icon={
+              <TouchableIcon
+                icon={<Search />}
+                onClick={() => console.log('oiii')}
+              />
+            }
+          />
         </div>
-        <TouchableIcon icon={<Search />} onClick={() => console.log('oiii')} />
+
         <div className="px-16px py-72px md:px-56px md:py-88px">
           <ShadowBox color={ColorOptions.GREEN}>
             <p className="header-text pb-48px">{Text.ASSUNTOS_DO_MOMENTO}</p>
@@ -36,6 +43,7 @@ function App() {
           </ShadowBox>
         </div>
       </div>
+
       {/* Right */}
       <div className="h-full pt-10 sm:pt-72px sm:w-48% bg-green-light">
         <div className="px-16px md:px-32px">
