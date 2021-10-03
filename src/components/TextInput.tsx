@@ -19,13 +19,17 @@ const TextInput = ({ icon, placeholder }: TextInputProps): JSX.Element => {
   );
 
   const handleChange = useCallback((event) => {
-    setInput(event.target.value);
+    setInput(event?.target?.value);
   }, []);
 
   return (
     <div className="relative flex items-center">
       <input
-        className={`appearance-none w-full border-gray border-1 rounded-16px px-16px py-8px shadow text-lg ${textColor} focus focus:border-green focus:outline-none`}
+        className={`
+          appearance-none w-full border-gray border-1 rounded-16px
+          px-16px py-8px shadow text-lg md:text-sm lg:text-lg ${textColor}
+          focus focus:border-green focus:outline-none
+        `}
         onChange={handleChange}
         placeholder={placeholder}
         type="text"
