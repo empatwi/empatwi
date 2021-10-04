@@ -4,6 +4,6 @@
 
 @layer components {
   .header-text {
-    @apply text-2xl text-gray font-normal;
+    @apply text-2xl text-gray font-semibold;
   }
 }

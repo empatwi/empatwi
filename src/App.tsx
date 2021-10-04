@@ -5,6 +5,7 @@ import Search from './svgs/Search';
 import { Chart } from 'react-google-charts';
 import { useCallback, useRef, useState } from 'react';
 import { TagCloud } from 'react-tagcloud';
+import Logo from './svgs/Logo';
 
 const Empatwi = (): JSX.Element => {
   const [input, setInput] = useState('');
@@ -51,10 +52,16 @@ const Empatwi = (): JSX.Element => {
   ];
 
   return (
-    <div className="min-h-screen h-screen font-oxygen bg-white flex flex-col sm:flex-row">
+    <div className="min-h-screen h-screen flex flex-col font-oxygen text-gray bg-white sm:flex-row">
       {/* Left */}
-      <div className="py-16 sm:pt-88px border-gray border-b-2 sm:w-52% sm:border-b-0 sm:border-r-2">
-        <div className="px-16px xl:px-48px">
+      <div className="py-16 sm:pt-48px border-gray border-b-2 sm:w-48% sm:border-b-0 sm:border-r-2">
+        {/* Header */}
+        <div className="flex flex-col px-16px xl:px-48px">
+          <div className="flex justify-center">
+            <div className="w-full max-w-xs pb-8px">
+              <Logo />
+            </div>
+          </div>
           <TextInput
             handleEnter={handleSearch}
             icon={<TouchableIcon icon={<Search />} onClick={sendSearch} />}
@@ -63,6 +70,7 @@ const Empatwi = (): JSX.Element => {
           />
         </div>
 
+        {/* Trending */}
         <div className="px-16px pt-72px xl:px-32px">
           <ShadowBox color={ColorOptions.GREEN} paddingX paddingY>
             <p className="header-text pb-48px">{Text.ASSUNTOS_DO_MOMENTO}</p>
@@ -82,33 +90,32 @@ const Empatwi = (): JSX.Element => {
 
       {/* Right */}
       <div
-        className="h-full pt-10 sm:pt-16px sm:w-48% bg-green-light"
+        className="px-16px pt-16 sm:pt-32px md:px-32px sm:w-52% bg-green-light"
         ref={rightRef}
       >
-        <div className="px-16px md:px-32px">
-          <div className="text-right">
-            <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
-            <p className="header-text text-green underline pb-40px">
-              {'BUSCA'.toLocaleLowerCase()}
-            </p>
+        {/* Header */}
+        <div className="text-right ">
+          <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
+          <p className="header-text text-green underline pb-40px">
+            {'BUSCA'.toLocaleLowerCase()}
+          </p>
+        </div>
+
+        {/* Bottom */}
+        <div className="flex flex-col">
+          {/* Wordcloud */}
+          <div className="w-full flex justify-center">
+            <div className="max-w-md">
+              <ShadowBox paddingX paddingY>
+                <div className="flex justify-center text-center font-semibold">
+                  <TagCloud maxSize={40} minSize={18} tags={data} />
+                </div>
+              </ShadowBox>
+            </div>
           </div>
 
-          {/* Wordcloud */}
-          <ShadowBox paddingX paddingY>
-            <div className="flex justify-center text-center font-semibold">
-              <TagCloud
-                maxSize={40}
-                minSize={18}
-                onClick={(tag: { value: string }) =>
-                  alert(`'${tag.value}' was selected!`)
-                }
-                tags={data}
-              />
-            </div>
-          </ShadowBox>
-
           {/* Graph */}
-          <div className="flex justify-center mt-56px mb-40px sm:mb-0">
+          <div className="flex flex-col justify-center mb-40px sm:mb-0">
             <Chart
               chartType="PieChart"
               data={[
@@ -123,7 +130,7 @@ const Empatwi = (): JSX.Element => {
                 </div>
               }
               options={{
-                backgroundColor: Colors.GREEN_LIGHT,
+                // backgroundColor: Colors.GREEN_LIGHT,
                 chartArea: { height: '95%', left: 0, width: '100%' },
                 colors: [Colors.GREEN, Colors.RED],
                 legend: 'none',
@@ -134,8 +141,11 @@ const Empatwi = (): JSX.Element => {
                   fontSize: 16,
                 },
               }}
-              width="100%"
+              // width="100%"
             />
+            <p className="mt-8px text-right font-semibold">
+              {Text.TOTAL}: {23} {Text.TWEETS_ANALISADOS}
+            </p>
           </div>
         </div>
       </div>
