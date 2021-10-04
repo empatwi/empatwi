@@ -1,26 +1,30 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Text } from '../constants';
 
 type TextInputProps = {
+  handleEnter?: (...args: any[]) => void;
   icon: JSX.Element;
+  input: string;
+  onChange: (...args: any[]) => void;
   placeholder?: string;
 };
 
 const defaultProps = {
+  handleEnter: () => null,
   placeholder: Text.O_QUE_ESTAO_PENSANDO_SOBRE,
 };
 
-const TextInput = ({ icon, placeholder }: TextInputProps): JSX.Element => {
-  const [input, setInput] = useState('');
-
+const TextInput = ({
+  handleEnter,
+  icon,
+  input,
+  onChange,
+  placeholder,
+}: TextInputProps): JSX.Element => {
   const textColor = useMemo(
     () => (input ? 'text-gray' : 'text-gray-light'),
     [input]
   );
-
-  const handleChange = useCallback((event) => {
-    setInput(event?.target?.value);
-  }, []);
 
   return (
     <div className="relative flex items-center">
@@ -30,7 +34,8 @@ const TextInput = ({ icon, placeholder }: TextInputProps): JSX.Element => {
           px-16px py-8px shadow text-lg md:text-sm lg:text-lg ${textColor}
           focus focus:border-green focus:outline-none
         `}
-        onChange={handleChange}
+        onChange={onChange}
+        onKeyPress={handleEnter}
         placeholder={placeholder}
         type="text"
         value={input}

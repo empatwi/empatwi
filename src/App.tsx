@@ -3,11 +3,31 @@ import { ColorOptions, Colors, Text } from './constants';
 import './index.css';
 import Search from './svgs/Search';
 import { Chart } from 'react-google-charts';
-import { useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { TagCloud } from 'react-tagcloud';
 
-const App = () => {
+const Empatwi = (): JSX.Element => {
+  const [input, setInput] = useState('');
+
   const rightRef = useRef(null);
+
+  const sendSearch = useCallback(() => {
+    // Call API search
+    if (input) console.log('SEARCH:', input);
+  }, [input]);
+
+  const handleChange = useCallback((event) => {
+    setInput(event?.target?.value);
+  }, []);
+
+  const handleSearch = useCallback(
+    (event) => {
+      if (event?.key === 'Enter') {
+        sendSearch();
+      }
+    },
+    [sendSearch]
+  );
 
   const data = [
     { value: 'bom', count: 40, color: Colors.GREEN },
@@ -36,12 +56,10 @@ const App = () => {
       <div className="py-16 sm:pt-88px border-gray border-b-2 sm:w-52% sm:border-b-0 sm:border-r-2">
         <div className="px-16px xl:px-48px">
           <TextInput
-            icon={
-              <TouchableIcon
-                icon={<Search />}
-                onClick={() => console.log('oiii')}
-              />
-            }
+            handleEnter={handleSearch}
+            icon={<TouchableIcon icon={<Search />} onClick={sendSearch} />}
+            input={input}
+            onChange={handleChange}
           />
         </div>
 
@@ -125,4 +143,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Empatwi;
