@@ -14,6 +14,7 @@ module.exports = {
         1: '1px',
       },
       colors: {
+        black: '#1C1C1C',
         gray: {
           light: 'rgba(106, 106, 106, 0.5)',
           DEFAULT: '#6A6A6A',
@@ -32,6 +33,7 @@ module.exports = {
       },
       height: {
         '56px': '56px',
+        footer: '80px',
       },
       margin: {
         '8px': '8px',
