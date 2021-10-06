@@ -5,30 +5,21 @@ type ColorOptionsType = `${ColorOptions}`;
 type ShadowBoxProps = {
   children: React.ReactNode;
   color?: ColorOptionsType;
-  paddingX?: boolean;
-  paddingY?: boolean;
+  padding?: string;
 };
 
 const defaultProps = {
   color: ColorOptions.WHITE,
-  paddingX: false,
-  paddingY: false,
+  padding: 'px-16px py-24px',
 };
 
 const ShadowBox = ({
   children,
   color,
-  paddingX,
-  paddingY,
+  padding,
 }: ShadowBoxProps): JSX.Element => {
   const background =
     color === ColorOptions.GREEN ? 'bg-green-light' : 'bg-white';
-
-  const pX = 'px-16px';
-  const pY = 'py-24px';
-
-  const padding =
-    paddingX && paddingY ? `${pX} ${pY}` : paddingX ? pX : paddingY ? pY : '';
 
   return (
     <div
