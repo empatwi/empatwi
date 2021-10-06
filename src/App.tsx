@@ -88,11 +88,11 @@ const Empatwi = (): JSX.Element => {
   return (
     <div className="h-screen flex flex-col justify-between">
       {/* App */}
-      <div className="h-full flex flex-col font-oxygen text-gray bg-white sm:flex-row">
+      <div className="sm:h-full flex flex-col font-oxygen text-gray bg-white sm:flex-row">
         {/* Left */}
-        <div className="flex flex-col border-gray border-b-2 sm:w-48% sm:border-b-0 sm:border-r-2">
+        <div className="flex flex-col justify-center border-gray border-b-2 sm:w-48% sm:border-b-0 sm:border-r-2">
           {/* Header */}
-          <div className="flex flex-col px-16px xl:px-48px">
+          <div className="flex flex-col px-16px pt-32px sm:pt-0 xl:px-64px">
             <div className="flex justify-center">
               <div className="w-full max-w-xs pb-8px">
                 <Logo />
@@ -107,8 +107,11 @@ const Empatwi = (): JSX.Element => {
           </div>
 
           {/* Trending */}
-          {/* <div className="px-16px pt-72px xl:px-32px">
-            <ShadowBox color={ColorOptions.GREEN} paddingX paddingY>
+          <div className="px-16px pt-56px pb-64px sm:pt-32px sm:pb-0 xl:px-32px">
+            <ShadowBox
+              color={ColorOptions.GREEN}
+              padding="pl-16px pt-24px pb-16px"
+            >
               <p className="header-text pb-48px">{Text.ASSUNTOS_DO_MOMENTO}</p>
               {mockChips.map((chip, index) => {
                 return (
@@ -121,7 +124,7 @@ const Empatwi = (): JSX.Element => {
                 );
               })}
             </ShadowBox>
-          </div> */}
+          </div>
         </div>
 
         {/* Right */}
@@ -142,7 +145,7 @@ const Empatwi = (): JSX.Element => {
             {/* Wordcloud */}
             <div className="w-full flex justify-center">
               <div className="max-w-md">
-                <ShadowBox paddingX paddingY>
+                <ShadowBox>
                   <div className="flex justify-center text-center font-semibold">
                     <TagCloud maxSize={40} minSize={18} tags={data} />
                   </div>

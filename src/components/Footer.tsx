@@ -9,12 +9,12 @@ const Footer = ({ leftItems, rightItems }: FooterProps): JSX.Element => {
   return (
     <div
       className={`
-      h-footer w-full
-      flex items-center justify-between px-16px
+        h-footer w-full
+        flex items-center justify-between
+        px-16px py-40px sm:py-0
       bg-black text-white
-    `}
+      `}
     >
-      {/* <p>oi</p> */}
       {leftItems}
       <div>{rightItems}</div>
     </div>
