@@ -88,6 +88,10 @@ const Empatwi = (): JSX.Element => {
     ],
   };
 
+  const total =
+    back_data?.positives_explained?.length +
+    back_data?.negatives_explained?.length;
+
   const data_pos = back_data?.positives_explained?.map((value) => {
     return { value: value?.word, count: value?.relevance, color: Colors.GREEN };
   });
@@ -211,7 +215,7 @@ const Empatwi = (): JSX.Element => {
                 // width="100%"
               />
               <p className="text-right font-semibold">
-                {Text.TOTAL}: {23} {Text.TWEETS_ANALISADOS}
+                {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
               </p>
             </div>
           </div>
