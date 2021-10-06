@@ -32,7 +32,7 @@ module.exports = {
         '36px': '36px',
       },
       height: {
-        '56px': '56px',
+        '30vh': '30vh',
         footer: '80px',
       },
       margin: {

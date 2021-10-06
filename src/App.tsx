@@ -47,11 +47,39 @@ const Empatwi = (): JSX.Element => {
         word: 'ano',
         relevance: 0.12,
       },
+      {
+        word: 'ainda',
+        relevance: 0.23,
+      },
+      {
+        word: 'merecer',
+        relevance: 0.67,
+      },
+      {
+        word: 'ano',
+        relevance: 0.55,
+      },
     ],
     negatives_explained: [
       {
         word: 'horrível',
         relevance: -0.08,
+      },
+      {
+        word: 'horrível',
+        relevance: -0.03,
+      },
+      {
+        word: 'horrível',
+        relevance: -0.7,
+      },
+      {
+        word: 'me faz mal',
+        relevance: -0.3,
+      },
+      {
+        word: 'desgosto',
+        relevance: -0.45,
       },
       {
         word: 'bonito',
@@ -86,9 +114,9 @@ const Empatwi = (): JSX.Element => {
   ];
 
   return (
-    <div className="h-screen flex flex-col justify-between">
+    <div className="h-screen flex flex-col justify-between font-oxygen text-white">
       {/* App */}
-      <div className="sm:h-full flex flex-col font-oxygen text-gray bg-white sm:flex-row">
+      <div className="sm:h-full flex flex-col text-gray bg-white sm:flex-row">
         {/* Left */}
         <div className="flex flex-col justify-center border-gray border-b-2 sm:w-48% sm:border-b-0 sm:border-r-2">
           {/* Header */}
@@ -129,13 +157,13 @@ const Empatwi = (): JSX.Element => {
 
         {/* Right */}
         <div
-          className="px-16px pt-16 sm:pt-32px md:px-32px sm:w-52% bg-green-light"
+          className="flex flex-col justify-evenly px-16px md:px-32px sm:w-52% bg-green-light"
           ref={rightRef}
         >
           {/* Header */}
-          <div className="text-right ">
+          <div className="text-right pt-64px pb-32px sm:p-0">
             <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
-            <p className="header-text text-green underline pb-40px">
+            <p className="header-text text-green underline">
               {'BUSCA'.toLocaleLowerCase()}
             </p>
           </div>
@@ -144,9 +172,9 @@ const Empatwi = (): JSX.Element => {
           <div className="flex flex-col">
             {/* Wordcloud */}
             <div className="w-full flex justify-center">
-              <div className="max-w-md">
-                <ShadowBox>
-                  <div className="flex justify-center text-center font-semibold">
+              <div className="max-w-lg">
+                <ShadowBox padding="p-0">
+                  <div className="h-full flex items-center text-center font-semibold sm:h-30vh">
                     <TagCloud maxSize={40} minSize={18} tags={data} />
                   </div>
                 </ShadowBox>
@@ -154,22 +182,22 @@ const Empatwi = (): JSX.Element => {
             </div>
 
             {/* Graph */}
-            <div className="flex flex-col justify-center mb-40px sm:mb-0">
-              {/* <Chart
+            <div className="flex flex-col justify-center mt-32px mb-56px sm:mt-16px sm:mb-0">
+              <Chart
                 chartType="PieChart"
                 data={[
                   ['Tweets', 'Quantidade'],
                   ['Positivo', 7],
                   ['Negativo', 2],
                 ]}
-                height="100%"
+                height="35vh"
                 loader={
                   <div className="flex justify-center text-white">
                     Carregando...
                   </div>
                 }
                 options={{
-                  // backgroundColor: Colors.GREEN_LIGHT,
+                  backgroundColor: Colors.GREEN_LIGHT,
                   chartArea: { height: '95%', left: 0, width: '100%' },
                   colors: [Colors.GREEN, Colors.RED],
                   legend: 'none',
@@ -181,8 +209,8 @@ const Empatwi = (): JSX.Element => {
                   },
                 }}
                 // width="100%"
-              /> */}
-              <p className="mt-8px text-right font-semibold">
+              />
+              <p className="text-right font-semibold">
                 {Text.TOTAL}: {23} {Text.TWEETS_ANALISADOS}
               </p>
             </div>
@@ -192,7 +220,7 @@ const Empatwi = (): JSX.Element => {
 
       {/* Footer */}
       <Footer
-        leftItems={<p>{Text.EMPATWI_2021}</p>}
+        leftItems={<p className="text-lg">{Text.EMPATWI_2021}</p>}
         rightItems={
           <div className="flex">
             <Search />
