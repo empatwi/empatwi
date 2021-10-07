@@ -1,30 +1,39 @@
-import { useCallback, useEffect, useState } from 'react';
+import {
+  Colors,
+  WorcloudObjType,
+  WordcloudDataType,
+  WordcloudType,
+} from './constants';
 
-export const useContainerDimensions = (ref: React.RefObject<JSX.Element>) => {
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+/* ===+=== Wordcloud ===+=== */
+const mapWordcloud = (arr: WorcloudObjType[], color: string) =>
+  arr.map((data) => {
+    const relevance = data?.relevance;
+    const isPos = relevance > 0;
 
-  const getDimensions = useCallback(() => {
     return {
-      // @ts-ignore
-      width: ref?.current?.offsetWidth,
-      // @ts-ignore
-      height: ref?.current?.offsetHeight,
+      value: data?.word,
+      count: isPos ? relevance : Math.abs(relevance),
+      color,
     };
-  }, [ref]);
+  });
 
-  useEffect(() => {
-    const handleResize = () => {
-      setDimensions(getDimensions());
-    };
+export const parseWordcloudData = (
+  data: WordcloudDataType
+): { total: number; cloud: WordcloudType[] } => {
+  const { positives_explained: pos, negatives_explained: neg } = data;
 
-    if (ref?.current) setDimensions(getDimensions());
+  const total = pos?.length + neg?.length;
 
-    window.addEventListener('resize', handleResize);
+  const parsedPos = mapWordcloud(neg, Colors.GREEN);
+  const parsedNeg = mapWordcloud(neg, Colors.RED);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [getDimensions, ref]);
+  // Shuffles the data array and takes first n items
+  const parsedData = [...parsedPos, ...parsedNeg]
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+    .slice(0, 18);
 
-  return dimensions;
+  return { total, cloud: parsedData };
 };
