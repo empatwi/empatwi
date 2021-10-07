@@ -1,112 +1,80 @@
-import { Chip, ShadowBox, TextInput, TouchableIcon } from './components';
-import { ColorOptions, Colors, Text } from './constants';
+import {
+  Chip,
+  Footer,
+  ShadowBox,
+  TextInput,
+  TouchableIcon,
+} from './components';
+import { ColorOptions, Colors, Text, WordcloudType } from './constants';
 import './index.css';
 import Search from './svgs/Search';
 import { Chart } from 'react-google-charts';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { TagCloud } from 'react-tagcloud';
 import Logo from './svgs/Logo';
-import Footer from './components/Footer';
+import { parseWordcloudData } from './utils';
+
+const backData = {
+  positive: 4,
+  negative: 1,
+  positives_explained: [
+    {
+      word: 'ainda',
+      relevance: 0.19,
+    },
+    {
+      word: 'merecer',
+      relevance: 0.12,
+    },
+    {
+      word: 'ano',
+      relevance: 0.12,
+    },
+    {
+      word: 'ainda',
+      relevance: 0.23,
+    },
+    {
+      word: 'merecer',
+      relevance: 0.67,
+    },
+    {
+      word: 'ano',
+      relevance: 0.55,
+    },
+  ],
+  negatives_explained: [
+    {
+      word: 'horrível',
+      relevance: -0.08,
+    },
+    {
+      word: 'horrível',
+      relevance: -0.03,
+    },
+    {
+      word: 'horrível',
+      relevance: -0.7,
+    },
+    {
+      word: 'me faz mal',
+      relevance: -0.3,
+    },
+    {
+      word: 'desgosto',
+      relevance: -0.45,
+    },
+    {
+      word: 'bonito',
+      relevance: -0.01,
+    },
+  ],
+};
 
 const Empatwi = (): JSX.Element => {
   const [input, setInput] = useState('');
-
-  const rightRef = useRef(null);
-
-  const sendSearch = useCallback(() => {
-    // Call API search
-    if (input) console.log('SEARCH:', input);
-  }, [input]);
-
-  const handleChange = useCallback((event) => {
-    setInput(event?.target?.value);
-  }, []);
-
-  const handleSearch = useCallback(
-    (event) => {
-      if (event?.key === 'Enter') {
-        sendSearch();
-      }
-    },
-    [sendSearch]
-  );
-
-  const back_data = {
-    positive: 4,
-    negative: 1,
-    positives_explained: [
-      {
-        word: 'ainda',
-        relevance: 0.19,
-      },
-      {
-        word: 'merecer',
-        relevance: 0.12,
-      },
-      {
-        word: 'ano',
-        relevance: 0.12,
-      },
-      {
-        word: 'ainda',
-        relevance: 0.23,
-      },
-      {
-        word: 'merecer',
-        relevance: 0.67,
-      },
-      {
-        word: 'ano',
-        relevance: 0.55,
-      },
-    ],
-    negatives_explained: [
-      {
-        word: 'horrível',
-        relevance: -0.08,
-      },
-      {
-        word: 'horrível',
-        relevance: -0.03,
-      },
-      {
-        word: 'horrível',
-        relevance: -0.7,
-      },
-      {
-        word: 'me faz mal',
-        relevance: -0.3,
-      },
-      {
-        word: 'desgosto',
-        relevance: -0.45,
-      },
-      {
-        word: 'bonito',
-        relevance: -0.01,
-      },
-    ],
-  };
-
-  const total =
-    back_data?.positives_explained?.length +
-    back_data?.negatives_explained?.length;
-
-  const data_pos = back_data?.positives_explained?.map((value) => {
-    return { value: value?.word, count: value?.relevance, color: Colors.GREEN };
-  });
-
-  const data_neg = back_data?.negatives_explained?.map((value) => {
-    return {
-      value: value?.word,
-      count: Math.abs(value?.relevance),
-      color: Colors.RED,
-    };
-  });
-
-  const data = [...data_pos, ...data_neg];
-
-  const mockChips = [
+  const [total, setTotal] = useState(0);
+  const [trending, setTrending] = useState([
     'Lorem ipsum',
     'dolor sit amet',
     'consectetur',
@@ -115,7 +83,30 @@ const Empatwi = (): JSX.Element => {
     'rutrum finibus',
     'tempus eget',
     'Maecenas eu ullamcorper metus',
-  ];
+  ]);
+  const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>();
+
+  useEffect(() => {
+    const { total, cloud } = parseWordcloudData(backData);
+    setTotal(total);
+    setWordcloud(cloud);
+  }, []);
+
+  const handleInputChange = useCallback((event) => {
+    setInput(event?.target?.value);
+  }, []);
+
+  const sendSearch = useCallback(() => {
+    // Call API search
+    if (input) console.log('SEARCH:', input);
+  }, [input]);
+
+  const handleSearch = useCallback(
+    (event) => {
+      if (event?.key === 'Enter') sendSearch();
+    },
+    [sendSearch]
+  );
 
   return (
     <div className="h-screen flex flex-col justify-between font-oxygen text-white">
@@ -134,7 +125,7 @@ const Empatwi = (): JSX.Element => {
               handleEnter={handleSearch}
               icon={<TouchableIcon icon={<Search />} onClick={sendSearch} />}
               input={input}
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -145,13 +136,13 @@ const Empatwi = (): JSX.Element => {
               padding="pl-16px pt-24px pb-16px"
             >
               <p className="header-text pb-48px">{Text.ASSUNTOS_DO_MOMENTO}</p>
-              {mockChips.map((chip, index) => {
+              {trending.map((trend, index) => {
                 return (
                   <div
                     className="inline-flex mr-16px mb-8px md:mb-16px"
                     key={index}
                   >
-                    <Chip text={`${chip}${index}`} />
+                    <Chip text={trend} />
                   </div>
                 );
               })}
@@ -160,10 +151,7 @@ const Empatwi = (): JSX.Element => {
         </div>
 
         {/* Right */}
-        <div
-          className="flex flex-col justify-evenly px-16px md:px-32px sm:w-52% bg-green-light"
-          ref={rightRef}
-        >
+        <div className="flex flex-col justify-evenly px-16px md:px-32px sm:w-52% bg-green-light">
           {/* Header */}
           <div className="text-right pt-64px pb-32px sm:p-0">
             <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
@@ -178,8 +166,12 @@ const Empatwi = (): JSX.Element => {
             <div className="w-full flex justify-center">
               <div className="max-w-lg">
                 <ShadowBox padding="p-0">
-                  <div className="h-full flex items-center text-center font-semibold sm:h-30vh">
-                    <TagCloud maxSize={40} minSize={18} tags={data} />
+                  <div className="flex items-center text-center font-semibold sm:h-30vh">
+                    <TagCloud
+                      maxSize={32}
+                      minSize={12}
+                      tags={wordcloud ?? []}
+                    />
                   </div>
                 </ShadowBox>
               </div>
@@ -212,7 +204,6 @@ const Empatwi = (): JSX.Element => {
                     fontSize: 16,
                   },
                 }}
-                // width="100%"
               />
               <p className="text-right font-semibold">
                 {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
