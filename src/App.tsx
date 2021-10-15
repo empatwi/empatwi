@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { TagCloud } from 'react-tagcloud';
 import Logo from './svgs/Logo';
 import { parseWordcloudData } from './utils';
+import { GitHub, Twitter } from './svgs';
 
 const backData = {
   positive: 4,
@@ -218,8 +219,10 @@ const Empatwi = (): JSX.Element => {
         leftItems={<p className="text-lg">{Text.EMPATWI_2021}</p>}
         rightItems={
           <div className="flex">
-            <Search />
-            <Search />
+            <div className="mr-24px">
+              <Twitter />
+            </div>
+            <GitHub />
           </div>
         }
       />
