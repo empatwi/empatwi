@@ -5,7 +5,13 @@ import {
   TextInput,
   TouchableIcon,
 } from './components';
-import { ColorOptions, Colors, Text, WordcloudType } from './constants';
+import {
+  ColorOptions,
+  Colors,
+  SocialLinkOptions,
+  Text,
+  WordcloudType,
+} from './constants';
 import './index.css';
 import Search from './svgs/Search';
 import { Chart } from 'react-google-charts';
@@ -13,7 +19,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { TagCloud } from 'react-tagcloud';
 import Logo from './svgs/Logo';
 import { parseWordcloudData } from './utils';
-import { GitHub, Twitter } from './svgs';
+import { SocialIcon } from './svgs';
 
 const backData = {
   positive: 4,
@@ -220,9 +226,9 @@ const Empatwi = (): JSX.Element => {
         rightItems={
           <div className="flex">
             <div className="mr-24px">
-              <Twitter />
+              <SocialIcon link={SocialLinkOptions.TWITTER} />
             </div>
-            <GitHub />
+            <SocialIcon link={SocialLinkOptions.GITHUB} />
           </div>
         }
       />
