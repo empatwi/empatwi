@@ -1,5 +1,6 @@
 import {
   Colors,
+  TrendingDataType,
   WorcloudObjType,
   WordcloudDataType,
   WordcloudType,
@@ -37,3 +38,8 @@ export const parseWordcloudData = (
 
   return { total, cloud: parsedData };
 };
+
+export const sortTrendingTopics = (
+  data: TrendingDataType[]
+): TrendingDataType[] =>
+  data.sort((a, b) => a.tweet_volume - b.tweet_volume).slice(0, 12);

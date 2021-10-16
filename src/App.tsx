@@ -1,13 +1,8 @@
-import {
-  Chip,
-  Footer,
-  ShadowBox,
-  TextInput,
-  TouchableIcon,
-} from './components';
+import { Button, Chip, Footer, ShadowBox, TextInput } from './components';
 import {
   ColorOptions,
   Colors,
+  Links,
   SocialLinkOptions,
   Text,
   WordcloudType,
@@ -18,7 +13,7 @@ import { Chart } from 'react-google-charts';
 import { useCallback, useEffect, useState } from 'react';
 import { TagCloud } from 'react-tagcloud';
 import Logo from './svgs/Logo';
-import { parseWordcloudData } from './utils';
+import { parseWordcloudData, sortTrendingTopics } from './utils';
 import { SocialIcon } from './svgs';
 
 const backData = {
@@ -81,16 +76,54 @@ const backData = {
 const Empatwi = (): JSX.Element => {
   const [input, setInput] = useState('');
   const [total, setTotal] = useState(0);
-  const [trending, setTrending] = useState([
-    'Lorem ipsum',
-    'dolor sit amet',
-    'consectetur',
-    'elit',
-    'Donec vitae eros at erat',
-    'rutrum finibus',
-    'tempus eget',
-    'Maecenas eu ullamcorper metus',
-  ]);
+  const [trending, setTrending] = useState(
+    sortTrendingTopics([
+      {
+        name: 'Glória Groove',
+        tweet_volume: 22169,
+      },
+      {
+        name: 'My Name',
+        tweet_volume: 140721,
+      },
+      {
+        name: 'Perdão',
+        tweet_volume: 16830,
+      },
+      {
+        name: 'Faking Love',
+        tweet_volume: 86308,
+      },
+      {
+        name: 'Coldplay',
+        tweet_volume: 155419,
+      },
+      {
+        name: 'tira férias juliette',
+        tweet_volume: 19757,
+      },
+      {
+        name: 'turnê i&r eua',
+        tweet_volume: 28871,
+      },
+      {
+        name: 'seokjin',
+        tweet_volume: 247111,
+      },
+      {
+        name: 'In The Soop',
+        tweet_volume: 660663,
+      },
+      {
+        name: 'Nintendo',
+        tweet_volume: 275932,
+      },
+      {
+        name: 'Leeds',
+        tweet_volume: 14672,
+      },
+    ])
+  );
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>();
 
   useEffect(() => {
@@ -103,17 +136,28 @@ const Empatwi = (): JSX.Element => {
     setInput(event?.target?.value);
   }, []);
 
-  const sendSearch = useCallback(() => {
-    // Call API search
-    if (input) console.log('SEARCH:', input);
-  }, [input]);
+  const sendSearch = useCallback(
+    (trend?: string) => {
+      console.log(trend ?? input);
+    },
+    [input]
+  );
 
-  const handleSearch = useCallback(
+  const handleClickSearch = useCallback(
+    (trend) => sendSearch(trend),
+    [sendSearch]
+  );
+
+  const handleKeyboardSearch = useCallback(
     (event) => {
       if (event?.key === 'Enter') sendSearch();
     },
     [sendSearch]
   );
+
+  const navigateTo = useCallback((url) => {
+    window.open(url);
+  }, []);
 
   return (
     <div className="h-screen flex flex-col justify-between font-oxygen text-white">
@@ -129,8 +173,8 @@ const Empatwi = (): JSX.Element => {
               </div>
             </div>
             <TextInput
-              handleEnter={handleSearch}
-              icon={<TouchableIcon icon={<Search />} onClick={sendSearch} />}
+              handleEnter={handleKeyboardSearch}
+              icon={<Button onClick={() => sendSearch()} render={<Search />} />}
               input={input}
               onChange={handleInputChange}
             />
@@ -146,10 +190,13 @@ const Empatwi = (): JSX.Element => {
               {trending.map((trend, index) => {
                 return (
                   <div
-                    className="inline-flex mr-16px mb-8px md:mb-16px"
+                    className="inline-flex mr-16px mb-8px lg:mb-16px"
                     key={index}
                   >
-                    <Chip text={trend} />
+                    <Button
+                      render={<Chip text={trend.name} />}
+                      onClick={() => handleClickSearch(trend.name)}
+                    />
                   </div>
                 );
               })}
@@ -226,9 +273,15 @@ const Empatwi = (): JSX.Element => {
         rightItems={
           <div className="flex">
             <div className="mr-24px">
-              <SocialIcon link={SocialLinkOptions.TWITTER} />
+              <Button
+                onClick={() => navigateTo(Links.TWITTER)}
+                render={<SocialIcon link={SocialLinkOptions.TWITTER} />}
+              />
             </div>
-            <SocialIcon link={SocialLinkOptions.GITHUB} />
+            <Button
+              onClick={() => navigateTo(Links.GITHUB)}
+              render={<SocialIcon link={SocialLinkOptions.GITHUB} />}
+            />
           </div>
         }
       />

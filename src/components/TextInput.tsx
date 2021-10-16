@@ -31,7 +31,7 @@ const TextInput = ({
       <input
         className={`
           appearance-none w-full border-gray border-1 rounded-16px
-          px-16px py-8px shadow text-lg md:text-sm lg:text-lg ${textColor}
+          px-16px py-8px shadow text-lg sm:text-sm md:text-lg ${textColor}
           focus focus:border-green focus:outline-none
         `}
         onChange={onChange}
