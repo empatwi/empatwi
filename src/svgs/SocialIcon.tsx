@@ -10,7 +10,7 @@ type SocialIconProps = {
 
 const defaultProps = {
   color: Colors.WHITE,
-  size: 35,
+  size: 32,
 };
 
 const SocialIcon = ({ color, link, size }: SocialIconProps): JSX.Element => {
@@ -27,6 +27,7 @@ const SocialIcon = ({ color, link, size }: SocialIconProps): JSX.Element => {
       height={size}
       viewBox="0 0 16 16"
       width={size}
+      // className="bg-blue-600"
       xmlns="http://www.w3.org/2000/svg"
     >
       {path}

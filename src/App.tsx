@@ -442,10 +442,10 @@ const Empatwi = (): JSX.Element => {
 
       {/* Footer */}
       <Footer
-        leftItems={<p className="text-lg">{Text.EMPATWI_2021}</p>}
+        leftItems={<p className="text-base">{Text.EMPATWI_2021}</p>}
         rightItems={
           <div className="flex">
-            <div className="mr-24px">
+            <div className="flex pr-24px">
               <Button
                 onClick={() => navigateTo(Links.TWITTER)}
                 render={<SocialIcon link={SocialLinkOptions.TWITTER} />}
