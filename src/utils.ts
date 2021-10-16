@@ -1,32 +1,41 @@
 import {
   Colors,
+  DataType,
+  GraphType,
+  Text,
   TrendingDataType,
   WorcloudObjType,
-  WordcloudDataType,
   WordcloudType,
 } from './constants';
 
+/* ===+=== Trending ===+=== */
+export const sortTrendingTopics = (
+  data: TrendingDataType[]
+): TrendingDataType[] =>
+  data.sort((a, b) => b.tweet_volume - a.tweet_volume).slice(0, 10);
+
 /* ===+=== Wordcloud ===+=== */
-const mapWordcloud = (arr: WorcloudObjType[], color: string) =>
-  arr.map((data) => {
-    const relevance = data?.relevance;
-    const isPos = relevance > 0;
+const mapWordcloud = (arr: WorcloudObjType[], color: string): WordcloudType[] =>
+  arr
+    // Parse
+    .map((data) => {
+      const relevance = data?.relevance;
+      const isPos = relevance > 0;
 
-    return {
-      value: data?.word,
-      count: isPos ? relevance : Math.abs(relevance),
-      color,
-    };
-  });
+      return {
+        value: data?.word,
+        count: isPos ? relevance : Math.abs(relevance),
+        color,
+      };
+    })
+    // Keep only the most relevant ocurrance of a repeated term
+    .sort((a, b) => b.count - a.count)
+    .filter((v, i, a) => a.findIndex((t) => t.value === v.value) === i);
 
-export const parseWordcloudData = (
-  data: WordcloudDataType
-): { total: number; cloud: WordcloudType[] } => {
-  const { positives_explained: pos, negatives_explained: neg } = data;
+export const parseWordcloudData = (data: DataType): WordcloudType[] => {
+  const { negatives_explained: neg, positives_explained: pos } = data;
 
-  const total = pos?.length + neg?.length;
-
-  const parsedPos = mapWordcloud(neg, Colors.GREEN);
+  const parsedPos = mapWordcloud(pos, Colors.GREEN);
   const parsedNeg = mapWordcloud(neg, Colors.RED);
 
   // Shuffles the data array and takes first n items
@@ -36,11 +45,24 @@ export const parseWordcloudData = (
     .map(({ value }) => value)
     .slice(0, 18);
 
-  return { total, cloud: parsedData };
+  return parsedData;
 };
 
-/* ===+=== Trending ===+=== */
-export const sortTrendingTopics = (
-  data: TrendingDataType[]
-): TrendingDataType[] =>
-  data.sort((a, b) => b.tweet_volume - a.tweet_volume).slice(0, 10);
+/* ===+=== Graph ===+=== */
+export const parseGraphData = (
+  data: DataType
+): { chart: GraphType; colors: Array<string>; total: number } => {
+  const { negative, positive } = data;
+
+  const total = positive + negative;
+
+  const chart = [
+    [Text.TWEETS, Text.QUANTIDADE],
+    [Text.TWEETS_POSITIVOS, positive],
+    [Text.TWEETS_NEGATIVOS, negative],
+  ];
+
+  const colors = [Colors.GREEN, Colors.RED];
+
+  return { chart, colors, total };
+};

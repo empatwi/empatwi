@@ -2,6 +2,7 @@ import { Button, Chip, Footer, ShadowBox, TextInput } from './components';
 import {
   ColorOptions,
   Colors,
+  GraphType,
   Links,
   SocialLinkOptions,
   Text,
@@ -13,68 +14,226 @@ import { Chart } from 'react-google-charts';
 import { useCallback, useEffect, useState } from 'react';
 import { TagCloud } from 'react-tagcloud';
 import Logo from './svgs/Logo';
-import { parseWordcloudData, sortTrendingTopics } from './utils';
+import {
+  parseGraphData,
+  parseWordcloudData,
+  sortTrendingTopics,
+} from './utils';
 import { SocialIcon } from './svgs';
 
 const backData = {
-  positive: 4,
-  negative: 1,
+  positive: 46,
+  negative: 15,
   positives_explained: [
     {
-      word: 'ainda',
-      relevance: 0.19,
+      word: 'vir',
+      relevance: 0.1184,
     },
     {
-      word: 'merecer',
-      relevance: 0.12,
+      word: 'melhor',
+      relevance: 0.078,
+    },
+    {
+      word: 'vir',
+      relevance: 0.1283,
+    },
+    {
+      word: 'flamengo',
+      relevance: 0.1132,
+    },
+    {
+      word: 'meter',
+      relevance: 0.0579,
+    },
+    {
+      word: 'flamengo',
+      relevance: 0.1162,
+    },
+    {
+      word: 'linda',
+      relevance: 0.0628,
+    },
+    {
+      word: 'cabelo',
+      relevance: 0.1163,
+    },
+    {
+      word: 'chamar',
+      relevance: 0.0915,
+    },
+    {
+      word: 'picoliportal',
+      relevance: 0,
+    },
+    {
+      word: 'sábado',
+      relevance: 0.0618,
+    },
+    {
+      word: 'peito',
+      relevance: 0.0619,
     },
     {
       word: 'ano',
-      relevance: 0.12,
+      relevance: 0.1158,
     },
     {
-      word: 'ainda',
-      relevance: 0.23,
+      word: 'bom',
+      relevance: 0.2389,
+    },
+    {
+      word: 'limão',
+      relevance: 0.1104,
+    },
+    {
+      word: 'fazer',
+      relevance: 0.0734,
+    },
+    {
+      word: 'bom',
+      relevance: 0.2097,
+    },
+    {
+      word: 'bom',
+      relevance: 0.2297,
+    },
+    {
+      word: 'feliz',
+      relevance: 0.1533,
+    },
+    {
+      word: 'fla',
+      relevance: 0,
+    },
+    {
+      word: 'bom',
+      relevance: 0.2075,
+    },
+    {
+      word: 'bom',
+      relevance: 0.2394,
+    },
+    {
+      word: 'caaaaaro',
+      relevance: 0,
+    },
+    {
+      word: 'flamengo',
+      relevance: 0.1132,
+    },
+    {
+      word: 'responder',
+      relevance: 0.0466,
+    },
+    {
+      word: 'chegar',
+      relevance: 0.1609,
     },
     {
       word: 'merecer',
-      relevance: 0.67,
+      relevance: 0.1173,
+    },
+    {
+      word: 'zerou',
+      relevance: 0,
+    },
+    {
+      word: 'camisa',
+      relevance: 0.0864,
     },
     {
       word: 'ano',
-      relevance: 0.55,
+      relevance: 0.1091,
+    },
+    {
+      word: 'deus',
+      relevance: 0.1301,
     },
   ],
   negatives_explained: [
     {
-      word: 'horrível',
-      relevance: -0.08,
+      word: 'bola',
+      relevance: -0.1345,
     },
     {
-      word: 'horrível',
-      relevance: -0.03,
+      word: 'dever',
+      relevance: -0.1443,
     },
     {
-      word: 'horrível',
-      relevance: -0.7,
+      word: 'começar',
+      relevance: -0.063,
     },
     {
-      word: 'me faz mal',
-      relevance: -0.3,
+      word: 'ler',
+      relevance: -0.0797,
     },
     {
-      word: 'desgosto',
-      relevance: -0.45,
+      word: 'dia',
+      relevance: -0.2401,
     },
     {
-      word: 'bonito',
-      relevance: -0.01,
+      word: 'acabar',
+      relevance: -0.1065,
+    },
+    {
+      word: 'dia',
+      relevance: -0.2529,
+    },
+    {
+      word: 'continuar',
+      relevance: -0.1068,
+    },
+    {
+      word: 'vencer',
+      relevance: -0.0762,
+    },
+    {
+      word: 'quantos',
+      relevance: -0.0797,
+    },
+    {
+      word: 'cima',
+      relevance: -0.0797,
+    },
+    {
+      word: 'começar',
+      relevance: -0.0636,
+    },
+    {
+      word: 'mundo',
+      relevance: -0.151,
+    },
+    {
+      word: 'insta',
+      relevance: -0.0769,
+    },
+    {
+      word: 'amiga',
+      relevance: -0.079,
+    },
+    {
+      word: 'dia',
+      relevance: -0.2358,
+    },
+    {
+      word: 'parar',
+      relevance: -0.0636,
+    },
+    {
+      word: 'querer',
+      relevance: -0.149,
+    },
+    {
+      word: 'ninguém',
+      relevance: -0.0786,
     },
   ],
 };
 
 const Empatwi = (): JSX.Element => {
   const [input, setInput] = useState('');
+  const [chart, setChart] = useState<GraphType | undefined>(undefined);
+  const [chartColors, setChartColors] = useState<Array<string>>();
   const [total, setTotal] = useState(0);
   const [trending] = useState(
     sortTrendingTopics([
@@ -127,9 +286,11 @@ const Empatwi = (): JSX.Element => {
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>();
 
   useEffect(() => {
-    const { total, cloud } = parseWordcloudData(backData);
+    const { chart, colors, total } = parseGraphData(backData);
+    setChart(chart);
+    setChartColors(colors);
     setTotal(total);
-    setWordcloud(cloud);
+    setWordcloud(parseWordcloudData(backData));
   }, []);
 
   const handleInputChange = useCallback((event) => {
@@ -235,11 +396,7 @@ const Empatwi = (): JSX.Element => {
             <div className="flex flex-col justify-center mt-32px mb-56px sm:mt-16px sm:mb-0">
               <Chart
                 chartType="PieChart"
-                data={[
-                  ['Tweets', 'Quantidade'],
-                  ['Positivo', 7],
-                  ['Negativo', 2],
-                ]}
+                data={chart}
                 height="35vh"
                 loader={
                   <div className="flex justify-center text-white">
@@ -249,7 +406,7 @@ const Empatwi = (): JSX.Element => {
                 options={{
                   backgroundColor: Colors.GREEN_LIGHT,
                   chartArea: { height: '95%', left: 0, width: '100%' },
-                  colors: [Colors.GREEN, Colors.RED],
+                  colors: chartColors,
                   legend: 'none',
                   pieHole: 0.4,
                   pieSliceTextStyle: {
@@ -257,6 +414,7 @@ const Empatwi = (): JSX.Element => {
                     fontName: 'Oxygen',
                     fontSize: 16,
                   },
+                  pieStartAngle: 90,
                 }}
               />
               {/* Legend */}

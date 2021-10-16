@@ -3,7 +3,7 @@ export type WorcloudObjType = {
   relevance: number;
 };
 
-export type WordcloudDataType = {
+export type DataType = {
   positive: number;
   negative: number;
   positives_explained: WorcloudObjType[];
