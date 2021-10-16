@@ -389,7 +389,7 @@ const Empatwi = (): JSX.Element => {
           {/* Header */}
           <div className="text-right pt-64px pb-32px sm:p-0">
             <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
-            <p className="header-text text-green underline">
+            <p className="header-text truncate underline text-green">
               {searched.toLocaleLowerCase()}
             </p>
           </div>
