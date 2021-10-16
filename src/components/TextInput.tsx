@@ -31,7 +31,8 @@ const TextInput = ({
       <input
         className={`
           appearance-none w-full border-gray border-1 rounded-16px
-          px-16px py-8px shadow text-lg sm:text-sm md:text-lg ${textColor}
+          shadow text-lg ${textColor} sm:text-sm md:text-lg
+          pl-16px pr-40px py-8px
           focus focus:border-green focus:outline-none
         `}
         onChange={onChange}
@@ -40,7 +41,7 @@ const TextInput = ({
         type="text"
         value={input}
       />
-      <span className="absolute leading-none right-0 pr-8px">{icon}</span>
+      <span className="absolute leading-none right-1 pr-8px">{icon}</span>
     </div>
   );
 };

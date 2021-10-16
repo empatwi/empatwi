@@ -230,6 +230,7 @@ const backData = {
 
 const Empatwi = (): JSX.Element => {
   const [input, setInput] = useState('');
+  const [searched, setSearched] = useState('');
   const [chart, setChart] = useState<GraphType | undefined>(undefined);
   const [chartColors, setChartColors] = useState<Array<string>>();
   const [total, setTotal] = useState(0);
@@ -297,7 +298,11 @@ const Empatwi = (): JSX.Element => {
 
   const sendSearch = useCallback(
     (trend?: string) => {
-      console.log(trend ?? input);
+      const search = trend ?? input;
+      if (search) {
+        console.log(search); // Send API call
+        setSearched(search);
+      }
     },
     [input]
   );
@@ -385,7 +390,7 @@ const Empatwi = (): JSX.Element => {
           <div className="text-right pt-64px pb-32px sm:p-0">
             <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
             <p className="header-text text-green underline">
-              {'BUSCA'.toLocaleLowerCase()}
+              {searched.toLocaleLowerCase()}
             </p>
           </div>
 
