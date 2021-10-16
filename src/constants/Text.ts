@@ -1,5 +1,6 @@
 export enum Text {
   ASSUNTOS_DO_MOMENTO = 'assuntos do momento',
+  CARREGANDO = 'Carregando...',
   EMPATWI_2021 = '© Empatwi 2021',
   O_QUE_ESTAO_PENSANDO_SOBRE = 'O que estão pensando sobre...?',
   QUANTIDADE = 'Quantidade',

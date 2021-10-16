@@ -38,8 +38,10 @@ module.exports = {
       margin: {
         '8px': '8px',
         '16px': '16px',
+        '-16px': '-16px',
         '24px': '24px',
         '32px': '32px',
+        '-32px': '-32px',
         '40px': '40px',
         '48px': '48px',
         '56px': '56px',

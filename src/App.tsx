@@ -9,17 +9,15 @@ import {
   WordcloudType,
 } from './constants';
 import './index.css';
-import Search from './svgs/Search';
 import { Chart } from 'react-google-charts';
 import { useCallback, useEffect, useState } from 'react';
 import { TagCloud } from 'react-tagcloud';
-import Logo from './svgs/Logo';
 import {
   parseGraphData,
   parseWordcloudData,
   sortTrendingTopics,
 } from './utils';
-import { SocialIcon } from './svgs';
+import { Logo, Search, SocialIcon } from './svgs';
 
 const backData = {
   positive: 46,
@@ -325,14 +323,25 @@ const Empatwi = (): JSX.Element => {
       {/* App */}
       <div className="sm:h-full flex flex-col text-gray bg-white sm:flex-row">
         {/* Left */}
-        <div className="flex flex-col justify-center border-gray border-b-2 sm:w-48% sm:border-b-0 sm:border-r-2">
+        <div
+          className="
+            flex flex-col justify-center
+            px-16px lg:px-32px xl:px-48px
+          border-gray border-b-2
+            sm:w-48% sm:border-b-0 sm:border-r-2"
+        >
           {/* Header */}
-          <div className="flex flex-col px-16px pt-32px sm:pt-0 xl:px-64px">
+          <div
+            className="flex flex-col
+              pt-32px sm:px-0 sm:pt-0 sm:-mt-32px md:px-32px"
+          >
+            {/* Logo */}
             <div className="flex justify-center">
               <div className="w-full max-w-xs pb-8px">
                 <Logo />
               </div>
             </div>
+            {/* Input */}
             <TextInput
               handleEnter={handleKeyboardSearch}
               icon={<Button onClick={() => sendSearch()} render={<Search />} />}
@@ -342,7 +351,7 @@ const Empatwi = (): JSX.Element => {
           </div>
 
           {/* Trending */}
-          <div className="px-16px pt-56px pb-64px sm:pt-32px sm:pb-0 xl:px-32px">
+          <div className="pt-56px pb-64px sm:pt-32px sm:pb-0">
             <ShadowBox
               color={ColorOptions.GREEN}
               padding="pl-16px pt-24px pb-16px"
@@ -366,7 +375,12 @@ const Empatwi = (): JSX.Element => {
         </div>
 
         {/* Right */}
-        <div className="flex flex-col justify-evenly px-16px md:px-32px sm:w-52% bg-green-light">
+        <div
+          className="
+            flex flex-col justify-evenly
+            px-16px md:px-32px xl:px-80px sm:w-52%
+          bg-green-light"
+        >
           {/* Header */}
           <div className="text-right pt-64px pb-32px sm:p-0">
             <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
@@ -379,28 +393,22 @@ const Empatwi = (): JSX.Element => {
           <div className="flex flex-col">
             {/* Wordcloud */}
             <div className="w-full flex justify-center">
-              <div className="max-w-lg">
-                <ShadowBox padding="p-0">
-                  <div className="flex items-center text-center font-semibold sm:h-30vh">
-                    <TagCloud
-                      maxSize={32}
-                      minSize={12}
-                      tags={wordcloud ?? []}
-                    />
-                  </div>
-                </ShadowBox>
-              </div>
+              <ShadowBox padding="p-0">
+                <div className="flex items-center text-center font-semibold sm:h-30vh">
+                  <TagCloud maxSize={32} minSize={12} tags={wordcloud ?? []} />
+                </div>
+              </ShadowBox>
             </div>
 
             {/* Graph */}
-            <div className="flex flex-col justify-center mt-32px mb-56px sm:mt-16px sm:mb-0">
+            <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
               <Chart
                 chartType="PieChart"
                 data={chart}
                 height="35vh"
                 loader={
                   <div className="flex justify-center text-white">
-                    Carregando...
+                    {Text.CARREGANDO}
                   </div>
                 }
                 options={{
@@ -417,8 +425,9 @@ const Empatwi = (): JSX.Element => {
                   pieStartAngle: 90,
                 }}
               />
+
               {/* Legend */}
-              <div className="flex flex-row-reverse font-semibold">
+              <div className="text-right font-semibold">
                 {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
               </div>
             </div>
