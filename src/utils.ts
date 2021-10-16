@@ -39,7 +39,8 @@ export const parseWordcloudData = (
   return { total, cloud: parsedData };
 };
 
+/* ===+=== Trending ===+=== */
 export const sortTrendingTopics = (
   data: TrendingDataType[]
 ): TrendingDataType[] =>
-  data.sort((a, b) => a.tweet_volume - b.tweet_volume).slice(0, 12);
+  data.sort((a, b) => b.tweet_volume - a.tweet_volume).slice(0, 10);

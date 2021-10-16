@@ -76,7 +76,7 @@ const backData = {
 const Empatwi = (): JSX.Element => {
   const [input, setInput] = useState('');
   const [total, setTotal] = useState(0);
-  const [trending, setTrending] = useState(
+  const [trending] = useState(
     sortTrendingTopics([
       {
         name: 'Glória Groove',
@@ -259,9 +259,10 @@ const Empatwi = (): JSX.Element => {
                   },
                 }}
               />
-              <p className="text-right font-semibold">
+              {/* Legend */}
+              <div className="flex flex-row-reverse font-semibold">
                 {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
-              </p>
+              </div>
             </div>
           </div>
         </div>
