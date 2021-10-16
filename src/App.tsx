@@ -333,7 +333,7 @@ const Empatwi = (): JSX.Element => {
           {/* Header */}
           <div
             className="flex flex-col
-              pt-32px sm:px-0 sm:pt-0 sm:-mt-32px md:px-32px"
+              pt-32px sm:px-0 sm:pt-0 sm:-mt-32px lg:px-32px"
           >
             {/* Logo */}
             <div className="flex justify-center">
