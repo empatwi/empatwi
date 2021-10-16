@@ -342,7 +342,7 @@ const Empatwi = (): JSX.Element => {
           >
             {/* Logo */}
             <div className="flex justify-center">
-              <div className="w-full max-w-xs pb-8px">
+              <div className="w-full max-w-2xs pb-8px">
                 <Logo />
               </div>
             </div>

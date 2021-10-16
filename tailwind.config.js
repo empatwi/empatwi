@@ -50,6 +50,9 @@ module.exports = {
         '80px': '80px',
         '88px': '88px',
       },
+      maxWidth: {
+        '2xs': '18rem',
+      },
       opacity: {
         50: '0.5',
       },
