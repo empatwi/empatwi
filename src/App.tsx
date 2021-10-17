@@ -242,6 +242,9 @@ const Empatwi = (): JSX.Element => {
   const [total, setTotal] = useState(0);
   const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>();
+  const [wordcloudTextSize, setWordcloudTextSize] = useState<
+    WordcloudType[] | null
+  >();
 
   /* =====+ useCallback +===== */
   const handleInputChange = useCallback((event) => {
@@ -276,6 +279,7 @@ const Empatwi = (): JSX.Element => {
   }, []);
 
   /* =====+ useEffect +===== */
+  // State initialization
   useEffect(() => {
     async function fetchData() {
       const response = await fetchTrendingTopics();
