@@ -237,10 +237,57 @@ const Empatwi = (): JSX.Element => {
   const [chartColors, setChartColors] = useState<Array<string>>();
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingTrends, setIsLoadingTrends] = useState(true);
+  const [isLoadingTrends, setIsLoadingTrends] = useState(false);
   const [searched, setSearched] = useState('');
   const [total, setTotal] = useState(0);
-  const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
+  const [trending, setTrending] = useState<TrendingDataType[] | null>(
+    sortTrendingTopics([
+      {
+        name: 'Glória Groove',
+        tweet_volume: 22169,
+      },
+      {
+        name: 'My Name',
+        tweet_volume: 140721,
+      },
+      {
+        name: 'Perdão',
+        tweet_volume: 16830,
+      },
+      {
+        name: 'Faking Love',
+        tweet_volume: 86308,
+      },
+      {
+        name: 'Coldplay',
+        tweet_volume: 155419,
+      },
+      {
+        name: 'tira férias juliette',
+        tweet_volume: 19757,
+      },
+      {
+        name: 'turnê i&r eua',
+        tweet_volume: 28871,
+      },
+      {
+        name: 'seokjin',
+        tweet_volume: 247111,
+      },
+      {
+        name: 'In The Soop',
+        tweet_volume: 660663,
+      },
+      {
+        name: 'Nintendo',
+        tweet_volume: 275932,
+      },
+      {
+        name: 'Leeds',
+        tweet_volume: 14672,
+      },
+    ])
+  );
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>(null);
 
   /* =====+ useCallback +===== */
@@ -253,6 +300,7 @@ const Empatwi = (): JSX.Element => {
       async function fetchData() {
         const search = trend ?? input;
         if (search) {
+          console.log(search);
           setIsLoading(true);
           setSearched(search);
           const response = await sendSearch(search);
@@ -263,12 +311,12 @@ const Empatwi = (): JSX.Element => {
             setTotal(total);
             setWordcloud(parseWordcloudData(backData));
           }
-          // setIsLoading(false);
+          setIsLoading(false);
         }
       }
-      fetchData();
+      if (!isLoading) fetchData();
     },
-    [input]
+    [input, isLoading]
   );
 
   const handleClickSearch = useCallback((trend) => search(trend), [search]);
@@ -369,11 +417,22 @@ const Empatwi = (): JSX.Element => {
                     {trending?.map((trend, index) => {
                       return (
                         <div
-                          className="inline-flex mr-16px mb-8px lg:mb-16px"
+                          className={`inline-flex mr-16px mb-8px lg:mb-16px ${
+                            isLoading ? 'opacity-50' : 'opacity-100'
+                          }`}
                           key={index}
                         >
                           <Button
-                            render={<Chip text={trend.name} />}
+                            render={
+                              <Chip
+                                style={`${
+                                  isLoading
+                                    ? 'text-opacity-50'
+                                    : 'text-opacity-100'
+                                }`}
+                                text={trend.name}
+                              />
+                            }
                             onClick={() => handleClickSearch(trend.name)}
                           />
                         </div>
