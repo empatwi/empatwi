@@ -10,7 +10,7 @@ import {
   WordcloudType,
 } from './constants';
 import './index.css';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Chart } from 'react-google-charts';
 import { TagCloud } from 'react-tagcloud';
 import ReactLoading from 'react-loading';
@@ -242,9 +242,6 @@ const Empatwi = (): JSX.Element => {
   const [total, setTotal] = useState(0);
   const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>();
-  const [wordcloudTextSize, setWordcloudTextSize] = useState<
-    WordcloudType[] | null
-  >();
 
   /* =====+ useCallback +===== */
   const handleInputChange = useCallback((event) => {
@@ -276,6 +273,21 @@ const Empatwi = (): JSX.Element => {
 
   const navigateTo = useCallback((url) => {
     window.open(url);
+  }, []);
+
+  /* =====+ useMemo +===== */
+  const wordcloudTextSize = useMemo(() => {
+    let max = 38;
+    let min = 14;
+
+    const { innerWidth: width } = window;
+
+    if (width < 768) {
+      max = 30;
+      min = 12;
+    }
+
+    return { max, min };
   }, []);
 
   /* =====+ useEffect +===== */
@@ -398,7 +410,11 @@ const Empatwi = (): JSX.Element => {
             <div className="w-full flex justify-center">
               <ShadowBox padding="p-0">
                 <div className="flex items-center text-center font-semibold">
-                  <TagCloud maxSize={38} minSize={14} tags={wordcloud ?? []} />
+                  <TagCloud
+                    maxSize={wordcloudTextSize.max}
+                    minSize={wordcloudTextSize.min}
+                    tags={wordcloud ?? []}
+                  />
                 </div>
               </ShadowBox>
             </div>

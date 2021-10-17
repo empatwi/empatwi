@@ -1,7 +1,7 @@
 export type { DataReturnType } from './DataReturnType';
 export type { GraphType } from './GraphType';
 export type { TrendingDataType } from './TrendingDataType';
-export type { WordcloudType, WorcloudObjType } from './WordcloudType';
+export type { WorcloudObjType, WordcloudType } from './WordcloudType';
 export { ColorOptions } from './ColorOptions';
 export { Colors } from './Colors';
 export { Context } from './Context';
