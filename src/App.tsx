@@ -10,9 +10,10 @@ import {
   WordcloudType,
 } from './constants';
 import './index.css';
-import { Chart } from 'react-google-charts';
 import { useCallback, useEffect, useState } from 'react';
+import { Chart } from 'react-google-charts';
 import { TagCloud } from 'react-tagcloud';
+import ReactLoading from 'react-loading';
 import {
   parseGraphData,
   parseWordcloudData,
@@ -235,56 +236,11 @@ const Empatwi = (): JSX.Element => {
   const [chart, setChart] = useState<GraphType | undefined>(undefined);
   const [chartColors, setChartColors] = useState<Array<string>>();
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingTrends, setIsLoadingTrends] = useState(true);
   const [searched, setSearched] = useState('');
   const [total, setTotal] = useState(0);
-  const [trending, setTrending] = useState<TrendingDataType[] | []>(
-    sortTrendingTopics([
-      {
-        name: 'Glória Groove',
-        tweet_volume: 22169,
-      },
-      {
-        name: 'My Name',
-        tweet_volume: 140721,
-      },
-      {
-        name: 'Perdão',
-        tweet_volume: 16830,
-      },
-      {
-        name: 'Faking Love',
-        tweet_volume: 86308,
-      },
-      {
-        name: 'Coldplay',
-        tweet_volume: 155419,
-      },
-      {
-        name: 'tira férias juliette',
-        tweet_volume: 19757,
-      },
-      {
-        name: 'turnê i&r eua',
-        tweet_volume: 28871,
-      },
-      {
-        name: 'seokjin',
-        tweet_volume: 247111,
-      },
-      {
-        name: 'In The Soop',
-        tweet_volume: 660663,
-      },
-      {
-        name: 'Nintendo',
-        tweet_volume: 275932,
-      },
-      {
-        name: 'Leeds',
-        tweet_volume: 14672,
-      },
-    ])
-  );
+  const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>();
 
   /* =====+ useCallback +===== */
@@ -296,7 +252,7 @@ const Empatwi = (): JSX.Element => {
     (trend?: string) => {
       const search = trend ?? input;
       if (search) {
-        console.log(search); // Send API call
+        // sendSearch(search);
         setSearched(search);
       }
     },
@@ -327,6 +283,10 @@ const Empatwi = (): JSX.Element => {
     }
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (trending) setIsLoadingTrends(false);
+  }, [trending]);
 
   useEffect(() => {
     const { chart, colors, total } = parseGraphData(backData);
@@ -374,29 +334,37 @@ const Empatwi = (): JSX.Element => {
                 onChange={handleInputChange}
               />
             </div>
-
             {/* Trending */}
             <div className="pt-56px pb-64px sm:pt-32px sm:pb-0">
-              <ShadowBox
-                color={ColorOptions.GREEN}
-                padding="pl-16px pt-24px pb-16px"
-              >
-                <p className="header-text pb-48px">
+              <ShadowBox color={ColorOptions.GREEN} padding="pt-24px pb-16px">
+                <p
+                  className={`header-text pl-16px ${
+                    isLoadingTrends ? 'pb-16px' : 'pb-48px'
+                  }`}
+                >
                   {Text.ASSUNTOS_DO_MOMENTO}
                 </p>
-                {trending?.map((trend, index) => {
-                  return (
-                    <div
-                      className="inline-flex mr-16px mb-8px lg:mb-16px"
-                      key={index}
-                    >
-                      <Button
-                        render={<Chip text={trend.name} />}
-                        onClick={() => handleClickSearch(trend.name)}
-                      />
-                    </div>
-                  );
-                })}
+                {isLoadingTrends ? (
+                  <div className="flex justify-center pb-8px">
+                    <ReactLoading height={56} type="spin" width={56} />
+                  </div>
+                ) : (
+                  <div className="pl-16px">
+                    {trending?.map((trend, index) => {
+                      return (
+                        <div
+                          className="inline-flex mr-16px mb-8px lg:mb-16px"
+                          key={index}
+                        >
+                          <Button
+                            render={<Chip text={trend.name} />}
+                            onClick={() => handleClickSearch(trend.name)}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </ShadowBox>
             </div>
           </div>
