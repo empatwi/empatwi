@@ -22,6 +22,53 @@ import {
 import { Logo, Search, SocialIcon } from './svgs';
 import { fetchTrendingTopics, sendSearch } from './api';
 
+const backTrending = [
+  {
+    name: 'Glória Groove',
+    tweet_volume: 22169,
+  },
+  {
+    name: 'My Name',
+    tweet_volume: 140721,
+  },
+  {
+    name: 'Perdão',
+    tweet_volume: 16830,
+  },
+  {
+    name: 'Faking Love',
+    tweet_volume: 86308,
+  },
+  {
+    name: 'Coldplay',
+    tweet_volume: 155419,
+  },
+  {
+    name: 'tira férias juliette',
+    tweet_volume: 19757,
+  },
+  {
+    name: 'turnê i&r eua',
+    tweet_volume: 28871,
+  },
+  {
+    name: 'seokjin',
+    tweet_volume: 247111,
+  },
+  {
+    name: 'In The Soop',
+    tweet_volume: 660663,
+  },
+  {
+    name: 'Nintendo',
+    tweet_volume: 275932,
+  },
+  {
+    name: 'Leeds',
+    tweet_volume: 14672,
+  },
+];
+
 const backData = {
   positive: 46,
   negative: 15,
@@ -241,52 +288,7 @@ const Empatwi = (): JSX.Element => {
   const [searched, setSearched] = useState('');
   const [total, setTotal] = useState(0);
   const [trending, setTrending] = useState<TrendingDataType[] | null>(
-    sortTrendingTopics([
-      {
-        name: 'Glória Groove',
-        tweet_volume: 22169,
-      },
-      {
-        name: 'My Name',
-        tweet_volume: 140721,
-      },
-      {
-        name: 'Perdão',
-        tweet_volume: 16830,
-      },
-      {
-        name: 'Faking Love',
-        tweet_volume: 86308,
-      },
-      {
-        name: 'Coldplay',
-        tweet_volume: 155419,
-      },
-      {
-        name: 'tira férias juliette',
-        tweet_volume: 19757,
-      },
-      {
-        name: 'turnê i&r eua',
-        tweet_volume: 28871,
-      },
-      {
-        name: 'seokjin',
-        tweet_volume: 247111,
-      },
-      {
-        name: 'In The Soop',
-        tweet_volume: 660663,
-      },
-      {
-        name: 'Nintendo',
-        tweet_volume: 275932,
-      },
-      {
-        name: 'Leeds',
-        tweet_volume: 14672,
-      },
-    ])
+    sortTrendingTopics(backTrending)
   );
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>(null);
 
