@@ -8,6 +8,7 @@ export enum Text {
   O_QUE_ESTAO_PENSANDO_SOBRE = 'O que estão pensando sobre...?',
   QUANTIDADE = 'Quantidade',
   RESULTADOS_DA_BUSCA_POR = 'resultados da busca por',
+  SPACE = ' ',
   TIP_1 = 'Busque por um assunto para visualizar se as opiniões acerca dele são positivas ou negativas!',
   TIP_2 = 'Basta digitar no campo de pesquisa que o nosso modelo de Inteligência Artificial cuida do resto. Ou, se preferir, já disponibilizamos os assuntos mais comentados do Twitter no Brasil para te guiar.',
   TOTAL = 'Total',

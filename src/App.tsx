@@ -263,7 +263,7 @@ const Empatwi = (): JSX.Element => {
             setTotal(total);
             setWordcloud(parseWordcloudData(backData));
           }
-          setIsLoading(false);
+          // setIsLoading(false);
         }
       }
       fetchData();
@@ -394,82 +394,104 @@ const Empatwi = (): JSX.Element => {
 
         {/* Right */}
         <div
-          className="
-            flex flex-col justify-evenly
+          className={`
+            flex flex-col ${isLoading ? 'justify-center' : 'justify-evenly'}
             px-16px md:px-32px xl:px-80px sm:w-52%
-          bg-green-light"
+          bg-green-light`}
         >
           {searched ? (
             <>
               {/* Header */}
-              <div className="text-right pt-64px pb-32px sm:p-0">
-                <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
-                <p className="header-text truncate underline text-green">
-                  {searched}
+              <div
+                className={`${
+                  isLoading ? 'text-center' : 'text-right'
+                } pt-64px pb-32px sm:p-0`}
+              >
+                <p className="header-text">
+                  {Text.RESULTADOS_DA_BUSCA_POR}
+                  {isLoading ? Text.SPACE : null}
+                  <p
+                    className={`header-text truncate underline text-green ${
+                      isLoading ? 'inline' : 'block'
+                    }`}
+                  >
+                    {searched}
+                  </p>
                 </p>
               </div>
 
               {/* Bottom */}
               <div className="flex flex-col">
-                {/* Wordcloud */}
-                <div className="w-full flex justify-center">
-                  <ShadowBox padding="p-0">
-                    <div className="flex items-center text-center font-semibold">
-                      <TagCloud
-                        maxSize={wordcloudTextSize.max}
-                        minSize={wordcloudTextSize.min}
-                        tags={wordcloud ?? []}
-                      />
-                    </div>
-                  </ShadowBox>
-                </div>
-
-                {/* Graph */}
-                <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
-                  <Chart
-                    chartType="PieChart"
-                    data={chart}
-                    height="35vh"
-                    loader={
-                      <div className="flex justify-center text-white">
-                        {Text.CARREGANDO}
-                      </div>
-                    }
-                    options={{
-                      backgroundColor: Colors.GREEN_LIGHT,
-                      chartArea: { height: '95%', left: 0, width: '100%' },
-                      colors: chartColors,
-                      legend: 'none',
-                      pieHole: 0.4,
-                      pieSliceTextStyle: {
-                        color: '#FFFFFF',
-                        fontName: 'Oxygen',
-                        fontSize: 16,
-                      },
-                      pieStartAngle: 90,
-                    }}
-                  />
-
-                  {/* Legend */}
-                  <div className="text-right font-semibold">
-                    {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
+                {isLoading ? (
+                  <div className="flex justify-center pt-24px">
+                    <ReactLoading height={56} type="bubbles" width={56} />
                   </div>
-                </div>
+                ) : (
+                  <>
+                    {/* Wordcloud */}
+                    <div className="w-full flex justify-center">
+                      <ShadowBox padding="p-0">
+                        <div className="flex items-center text-center font-semibold">
+                          <TagCloud
+                            maxSize={wordcloudTextSize.max}
+                            minSize={wordcloudTextSize.min}
+                            tags={wordcloud ?? []}
+                          />
+                        </div>
+                      </ShadowBox>
+                    </div>
+
+                    {/* Graph */}
+                    <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
+                      <Chart
+                        chartType="PieChart"
+                        data={chart}
+                        height="35vh"
+                        loader={
+                          <div className="flex justify-center text-white">
+                            {Text.CARREGANDO}
+                          </div>
+                        }
+                        options={{
+                          backgroundColor: Colors.GREEN_LIGHT,
+                          chartArea: { height: '95%', left: 0, width: '100%' },
+                          colors: chartColors,
+                          legend: 'none',
+                          pieHole: 0.4,
+                          pieSliceTextStyle: {
+                            color: '#FFFFFF',
+                            fontName: 'Oxygen',
+                            fontSize: 16,
+                          },
+                          pieStartAngle: 90,
+                        }}
+                      />
+
+                      {/* Legend */}
+                      <div
+                        className={`${
+                          isLoading ? 'hidden' : 'block'
+                        } text-right font-semibold`}
+                      >
+                        {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </>
           ) : (
             <div
               className="
                 flex flex-col
-                text-md font-semibold text-center"
+                text-md font-medium text-center"
             >
-              <p className="text-2xl pb-32px">{Text.WELCOME}</p>
+              <p className="text-2xl font-semibold pb-32px">{Text.WELCOME}</p>
               <p className="text-left pb-16px">
                 {Text.TIP_1}
                 <sup>{Text.DISCLAIMER_SYMBOL}</sup>
               </p>
               <p className="text-left">{Text.TIP_2}</p>
-              {/* <ReactLoading height={56} type="spin" width={56} /> */}
             </div>
           )}
         </div>
