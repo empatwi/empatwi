@@ -8,6 +8,6 @@
   }
 }
 
-#google-visualization-errors-all-1 {
+[id^='google-visualization-errors-all-'] {
   display: none !important;
 }
