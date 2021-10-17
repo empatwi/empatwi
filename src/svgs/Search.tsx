@@ -5,7 +5,7 @@ type SearchProps = {
 
 const defaultProps = {
   color: '#6A6A6A',
-  size: 6,
+  size: 24,
 };
 
 const Search = ({ color, size }: SearchProps): JSX.Element => {
