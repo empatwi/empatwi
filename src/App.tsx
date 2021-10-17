@@ -300,7 +300,6 @@ const Empatwi = (): JSX.Element => {
       async function fetchData() {
         const search = trend ?? input;
         if (search) {
-          console.log(search);
           setIsLoading(true);
           setSearched(search);
           const response = await sendSearch(search);
