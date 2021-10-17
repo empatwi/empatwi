@@ -399,7 +399,7 @@ const Empatwi = (): JSX.Element => {
             {/* Wordcloud */}
             <div className="w-full flex justify-center">
               <ShadowBox padding="p-0">
-                <div className="flex items-center text-center font-semibold sm:h-30vh">
+                <div className="flex items-center text-center font-semibold">
                   <TagCloud maxSize={38} minSize={14} tags={wordcloud ?? []} />
                 </div>
               </ShadowBox>
