@@ -5,16 +5,17 @@ type SearchProps = {
 
 const defaultProps = {
   color: '#6A6A6A',
-  size: 6,
+  size: 24,
 };
 
 const Search = ({ color, size }: SearchProps): JSX.Element => {
   return (
     <svg
-      className={`h-${size} w-${size}`}
       fill="none"
+      height={size}
       stroke={color}
       viewBox="0 0 24 24"
+      width={size}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
