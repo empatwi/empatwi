@@ -20,7 +20,7 @@ import {
   sortTrendingTopics,
 } from './utils';
 import { Logo, Search, SocialIcon } from './svgs';
-import { fetchTrendingTopics } from './api';
+import { fetchTrendingTopics, sendSearch } from './api';
 
 const backData = {
   positive: 46,
@@ -241,34 +241,43 @@ const Empatwi = (): JSX.Element => {
   const [searched, setSearched] = useState('');
   const [total, setTotal] = useState(0);
   const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
-  const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>();
+  const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>(null);
 
   /* =====+ useCallback +===== */
   const handleInputChange = useCallback((event) => {
     setInput(event?.target?.value);
   }, []);
 
-  const sendSearch = useCallback(
+  const search = useCallback(
     (trend?: string) => {
-      const search = trend ?? input;
-      if (search) {
-        // sendSearch(search);
-        setSearched(search);
+      async function fetchData() {
+        const search = trend ?? input;
+        if (search) {
+          setIsLoading(true);
+          setSearched(search);
+          const response = await sendSearch(search);
+          if (response) {
+            const { chart, colors, total } = parseGraphData(response);
+            setChart(chart);
+            setChartColors(colors);
+            setTotal(total);
+            setWordcloud(parseWordcloudData(backData));
+          }
+          setIsLoading(false);
+        }
       }
+      fetchData();
     },
     [input]
   );
 
-  const handleClickSearch = useCallback(
-    (trend) => sendSearch(trend),
-    [sendSearch]
-  );
+  const handleClickSearch = useCallback((trend) => search(trend), [search]);
 
   const handleKeyboardSearch = useCallback(
     (event) => {
-      if (event?.key === 'Enter') sendSearch();
+      if (event?.key === 'Enter') search();
     },
-    [sendSearch]
+    [search]
   );
 
   const navigateTo = useCallback((url) => {
@@ -300,17 +309,10 @@ const Empatwi = (): JSX.Element => {
     fetchData();
   }, []);
 
+  // State updates
   useEffect(() => {
     if (trending) setIsLoadingTrends(false);
   }, [trending]);
-
-  useEffect(() => {
-    const { chart, colors, total } = parseGraphData(backData);
-    setChart(chart);
-    setChartColors(colors);
-    setTotal(total);
-    setWordcloud(parseWordcloudData(backData));
-  }, []);
 
   return (
     <div className="h-screen flex flex-col justify-between font-oxygen text-white">
@@ -343,9 +345,7 @@ const Empatwi = (): JSX.Element => {
               {/* Input */}
               <TextInput
                 handleEnter={handleKeyboardSearch}
-                icon={
-                  <Button onClick={() => sendSearch()} render={<Search />} />
-                }
+                icon={<Button onClick={() => search()} render={<Search />} />}
                 input={input}
                 onChange={handleInputChange}
               />
@@ -386,7 +386,10 @@ const Empatwi = (): JSX.Element => {
           </div>
 
           {/* Disclaimer */}
-          <div className="text-xs px-2px">{Text.DISCLAIMER_1}</div>
+          <div className="text-xs px-2px">
+            <sup>{Text.DISCLAIMER_SYMBOL}</sup>
+            {Text.DISCLAIMER_1}
+          </div>
         </div>
 
         {/* Right */}
@@ -396,61 +399,79 @@ const Empatwi = (): JSX.Element => {
             px-16px md:px-32px xl:px-80px sm:w-52%
           bg-green-light"
         >
-          {/* Header */}
-          <div className="text-right pt-64px pb-32px sm:p-0">
-            <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
-            <p className="header-text truncate underline text-green">
-              {searched}
-            </p>
-          </div>
-
-          {/* Bottom */}
-          <div className="flex flex-col">
-            {/* Wordcloud */}
-            <div className="w-full flex justify-center">
-              <ShadowBox padding="p-0">
-                <div className="flex items-center text-center font-semibold">
-                  <TagCloud
-                    maxSize={wordcloudTextSize.max}
-                    minSize={wordcloudTextSize.min}
-                    tags={wordcloud ?? []}
-                  />
-                </div>
-              </ShadowBox>
-            </div>
-
-            {/* Graph */}
-            <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
-              <Chart
-                chartType="PieChart"
-                data={chart}
-                height="35vh"
-                loader={
-                  <div className="flex justify-center text-white">
-                    {Text.CARREGANDO}
-                  </div>
-                }
-                options={{
-                  backgroundColor: Colors.GREEN_LIGHT,
-                  chartArea: { height: '95%', left: 0, width: '100%' },
-                  colors: chartColors,
-                  legend: 'none',
-                  pieHole: 0.4,
-                  pieSliceTextStyle: {
-                    color: '#FFFFFF',
-                    fontName: 'Oxygen',
-                    fontSize: 16,
-                  },
-                  pieStartAngle: 90,
-                }}
-              />
-
-              {/* Legend */}
-              <div className="text-right font-semibold">
-                {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
+          {searched ? (
+            <>
+              {/* Header */}
+              <div className="text-right pt-64px pb-32px sm:p-0">
+                <p className="header-text">{Text.RESULTADOS_DA_BUSCA_POR}</p>
+                <p className="header-text truncate underline text-green">
+                  {searched}
+                </p>
               </div>
+
+              {/* Bottom */}
+              <div className="flex flex-col">
+                {/* Wordcloud */}
+                <div className="w-full flex justify-center">
+                  <ShadowBox padding="p-0">
+                    <div className="flex items-center text-center font-semibold">
+                      <TagCloud
+                        maxSize={wordcloudTextSize.max}
+                        minSize={wordcloudTextSize.min}
+                        tags={wordcloud ?? []}
+                      />
+                    </div>
+                  </ShadowBox>
+                </div>
+
+                {/* Graph */}
+                <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
+                  <Chart
+                    chartType="PieChart"
+                    data={chart}
+                    height="35vh"
+                    loader={
+                      <div className="flex justify-center text-white">
+                        {Text.CARREGANDO}
+                      </div>
+                    }
+                    options={{
+                      backgroundColor: Colors.GREEN_LIGHT,
+                      chartArea: { height: '95%', left: 0, width: '100%' },
+                      colors: chartColors,
+                      legend: 'none',
+                      pieHole: 0.4,
+                      pieSliceTextStyle: {
+                        color: '#FFFFFF',
+                        fontName: 'Oxygen',
+                        fontSize: 16,
+                      },
+                      pieStartAngle: 90,
+                    }}
+                  />
+
+                  {/* Legend */}
+                  <div className="text-right font-semibold">
+                    {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div
+              className="
+                flex flex-col
+                text-md font-semibold text-center"
+            >
+              <p className="text-2xl pb-32px">{Text.WELCOME}</p>
+              <p className="text-left pb-16px">
+                {Text.TIP_1}
+                <sup>{Text.DISCLAIMER_SYMBOL}</sup>
+              </p>
+              <p className="text-left">{Text.TIP_2}</p>
+              {/* <ReactLoading height={56} type="spin" width={56} /> */}
             </div>
-          </div>
+          )}
         </div>
       </div>
 
