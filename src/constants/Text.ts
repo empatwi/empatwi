@@ -1,7 +1,7 @@
 export enum Text {
   ASSUNTOS_DO_MOMENTO = 'assuntos do momento',
   CARREGANDO = 'Carregando...',
-  DISCLAIMER_1 = 'O resultados apresentados pela plataforma são baseados em dados reais capturados do Twitter e não refletem as nossas opiniões.',
+  DISCLAIMER_1 = 'Os resultados apresentados pela plataforma são baseados em dados reais do Twitter e não refletem as nossas opiniões.',
   DISCLAIMER_2 = 'Não nos responsabilizamos por qualquer conteúdo ofensivo.',
   EMPATWI_2021 = '© Empatwi 2021',
   O_QUE_ESTAO_PENSANDO_SOBRE = 'O que estão pensando sobre...?',

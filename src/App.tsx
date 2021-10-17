@@ -330,53 +330,66 @@ const Empatwi = (): JSX.Element => {
         {/* Left */}
         <div
           className="
-            flex flex-col justify-center
-            px-16px lg:px-32px xl:px-48px
+            flex flex-col justify-between
           border-gray border-b-2
             sm:w-48% sm:border-b-0 sm:border-r-2"
         >
-          {/* Header */}
+          {/* Content */}
           <div
-            className="flex flex-col
-              pt-32px sm:px-0 sm:pt-0 sm:-mt-32px lg:px-32px"
+            className="
+            h-full flex flex-col justify-center
+            px-16px lg:px-32px xl:px-48px"
           >
-            {/* Logo */}
-            <div className="flex justify-center">
-              <div className="w-full max-w-2xs pb-8px">
-                <Logo />
+            {/* Header */}
+            <div
+              className="flex flex-col
+              pt-32px sm:px-0 sm:pt-0 sm:-mt-32px lg:px-32px"
+            >
+              {/* Logo */}
+              <div className="flex justify-center">
+                <div className="w-full max-w-2xs pb-8px">
+                  <Logo />
+                </div>
               </div>
+              {/* Input */}
+              <TextInput
+                handleEnter={handleKeyboardSearch}
+                icon={
+                  <Button onClick={() => sendSearch()} render={<Search />} />
+                }
+                input={input}
+                onChange={handleInputChange}
+              />
             </div>
-            {/* Input */}
-            <TextInput
-              handleEnter={handleKeyboardSearch}
-              icon={<Button onClick={() => sendSearch()} render={<Search />} />}
-              input={input}
-              onChange={handleInputChange}
-            />
+
+            {/* Trending */}
+            <div className="pt-56px pb-64px sm:pt-32px sm:pb-0">
+              <ShadowBox
+                color={ColorOptions.GREEN}
+                padding="pl-16px pt-24px pb-16px"
+              >
+                <p className="header-text pb-48px">
+                  {Text.ASSUNTOS_DO_MOMENTO}
+                </p>
+                {trending.map((trend, index) => {
+                  return (
+                    <div
+                      className="inline-flex mr-16px mb-8px lg:mb-16px"
+                      key={index}
+                    >
+                      <Button
+                        render={<Chip text={trend.name} />}
+                        onClick={() => handleClickSearch(trend.name)}
+                      />
+                    </div>
+                  );
+                })}
+              </ShadowBox>
+            </div>
           </div>
 
-          {/* Trending */}
-          <div className="pt-56px pb-64px sm:pt-32px sm:pb-0">
-            <ShadowBox
-              color={ColorOptions.GREEN}
-              padding="pl-16px pt-24px pb-16px"
-            >
-              <p className="header-text pb-48px">{Text.ASSUNTOS_DO_MOMENTO}</p>
-              {trending.map((trend, index) => {
-                return (
-                  <div
-                    className="inline-flex mr-16px mb-8px lg:mb-16px"
-                    key={index}
-                  >
-                    <Button
-                      render={<Chip text={trend.name} />}
-                      onClick={() => handleClickSearch(trend.name)}
-                    />
-                  </div>
-                );
-              })}
-            </ShadowBox>
-          </div>
+          {/* Disclaimer */}
+          <div className="text-xs px-2px">{Text.DISCLAIMER_1}</div>
         </div>
 
         {/* Right */}

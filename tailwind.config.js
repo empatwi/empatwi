@@ -57,6 +57,7 @@ module.exports = {
         50: '0.5',
       },
       padding: {
+        '2px': '2px',
         '8px': '8px',
         '16px': '16px',
         '24px': '24px',
