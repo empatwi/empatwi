@@ -7,12 +7,31 @@ const { env } = process;
 const { REACT_APP_API_URL, REACT_APP_API_URL_DEV } = env;
 
 const base =
-  context === Context.PROD
-    ? `${REACT_APP_API_URL}/tweet/`
-    : `${REACT_APP_API_URL_DEV}/tweet/`;
+  context === Context.PROD ? REACT_APP_API_URL : REACT_APP_API_URL_DEV;
 
 export const fetchTrendingTopics = async () => {
-  return await axios({ method: 'GET', url: base })
+  const url = `${base}/`;
+  return await axios({
+    method: 'GET',
+    url,
+  })
+    .then((res) => {
+      return null;
+    })
+    .catch((err) => {
+      return null;
+    });
+};
+
+export const sendSearch = async (search: string) => {
+  const url = `${base}/`;
+  return await axios({
+    method: 'PUT',
+    url,
+    data: {
+      keyword: search,
+    },
+  })
     .then((res) => {
       return null;
     })

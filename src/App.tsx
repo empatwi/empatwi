@@ -6,6 +6,7 @@ import {
   Links,
   SocialLinkOptions,
   Text,
+  TrendingDataType,
   WordcloudType,
 } from './constants';
 import './index.css';
@@ -18,6 +19,7 @@ import {
   sortTrendingTopics,
 } from './utils';
 import { Logo, Search, SocialIcon } from './svgs';
+import { fetchTrendingTopics } from './api';
 
 const backData = {
   positive: 46,
@@ -229,12 +231,13 @@ const backData = {
 };
 
 const Empatwi = (): JSX.Element => {
-  const [input, setInput] = useState('');
-  const [searched, setSearched] = useState('');
+  /* =====+ useState +===== */
   const [chart, setChart] = useState<GraphType | undefined>(undefined);
   const [chartColors, setChartColors] = useState<Array<string>>();
+  const [input, setInput] = useState('');
+  const [searched, setSearched] = useState('');
   const [total, setTotal] = useState(0);
-  const [trending] = useState(
+  const [trending, setTrending] = useState<TrendingDataType[] | []>(
     sortTrendingTopics([
       {
         name: 'Glória Groove',
@@ -284,14 +287,7 @@ const Empatwi = (): JSX.Element => {
   );
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>();
 
-  useEffect(() => {
-    const { chart, colors, total } = parseGraphData(backData);
-    setChart(chart);
-    setChartColors(colors);
-    setTotal(total);
-    setWordcloud(parseWordcloudData(backData));
-  }, []);
-
+  /* =====+ useCallback +===== */
   const handleInputChange = useCallback((event) => {
     setInput(event?.target?.value);
   }, []);
@@ -321,6 +317,23 @@ const Empatwi = (): JSX.Element => {
 
   const navigateTo = useCallback((url) => {
     window.open(url);
+  }, []);
+
+  /* =====+ useEffect +===== */
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetchTrendingTopics();
+      if (response) setTrending(sortTrendingTopics(response));
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const { chart, colors, total } = parseGraphData(backData);
+    setChart(chart);
+    setChartColors(colors);
+    setTotal(total);
+    setWordcloud(parseWordcloudData(backData));
   }, []);
 
   return (
@@ -371,7 +384,7 @@ const Empatwi = (): JSX.Element => {
                 <p className="header-text pb-48px">
                   {Text.ASSUNTOS_DO_MOMENTO}
                 </p>
-                {trending.map((trend, index) => {
+                {trending?.map((trend, index) => {
                   return (
                     <div
                       className="inline-flex mr-16px mb-8px lg:mb-16px"
