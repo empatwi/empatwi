@@ -28,7 +28,7 @@ const Empatwi = (): JSX.Element => {
   const [chartColors, setChartColors] = useState<Array<string>>();
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingTrends, setIsLoadingTrends] = useState(false);
+  const [isLoadingTrends, setIsLoadingTrends] = useState(true);
   const [searched, setSearched] = useState('');
   const [total, setTotal] = useState(0);
   const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
