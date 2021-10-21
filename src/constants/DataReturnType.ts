@@ -1,9 +1,6 @@
-export type WorcloudObjType = {
-  word: string;
-  relevance: number;
-};
+import { WorcloudObjType } from '.';
 
-export type DataType = {
+export type DataReturnType = {
   positive: number;
   negative: number;
   positives_explained: WorcloudObjType[];

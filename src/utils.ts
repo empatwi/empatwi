@@ -1,6 +1,6 @@
 import {
   Colors,
-  DataType,
+  DataReturnType,
   GraphType,
   Text,
   TrendingDataType,
@@ -12,7 +12,11 @@ import {
 export const sortTrendingTopics = (
   data: TrendingDataType[]
 ): TrendingDataType[] =>
-  data.sort((a, b) => b.tweet_volume - a.tweet_volume).slice(0, 10);
+  data
+    // Keep only the most relevant ocurrance of a trending topic
+    .sort((a, b) => b.tweet_volume - a.tweet_volume)
+    .filter((v, i, a) => a.findIndex((t) => t.name === v.name) === i)
+    .slice(0, 10);
 
 /* ===+=== Wordcloud ===+=== */
 const mapWordcloud = (arr: WorcloudObjType[], color: string): WordcloudType[] =>
@@ -32,7 +36,7 @@ const mapWordcloud = (arr: WorcloudObjType[], color: string): WordcloudType[] =>
     .sort((a, b) => b.count - a.count)
     .filter((v, i, a) => a.findIndex((t) => t.value === v.value) === i);
 
-export const parseWordcloudData = (data: DataType): WordcloudType[] => {
+export const parseWordcloudData = (data: DataReturnType): WordcloudType[] => {
   const { negatives_explained: neg, positives_explained: pos } = data;
 
   const parsedPos = mapWordcloud(pos, Colors.GREEN);
@@ -50,7 +54,7 @@ export const parseWordcloudData = (data: DataType): WordcloudType[] => {
 
 /* ===+=== Graph ===+=== */
 export const parseGraphData = (
-  data: DataType
+  data: DataReturnType
 ): { chart: GraphType; colors: Array<string>; total: number } => {
   const { negative, positive } = data;
 
