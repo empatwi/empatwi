@@ -1,4 +1,4 @@
 export enum Context {
-  DEV = '',
-  PROD = '',
+  DEV = 'DEV',
+  PROD = 'PROD',
 }

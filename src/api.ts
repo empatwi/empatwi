@@ -1,41 +1,43 @@
-import axios from 'axios';
+import axios, { AxiosPromise } from 'axios';
 import { Context } from './constants';
 
 const context = Context.DEV;
 
-const { env } = process;
-const { REACT_APP_API_URL, REACT_APP_API_URL_DEV } = env;
-
 const base =
-  context === Context.PROD ? REACT_APP_API_URL : REACT_APP_API_URL_DEV;
+  // @ts-ignore
+  context === Context.PROD
+    ? `${process.env.REACT_APP_API_URL}/search`
+    : `${process.env.REACT_APP_API_URL_DEV}/search`;
 
-export const fetchTrendingTopics = async () => {
-  const url = `${base}/`;
-  return await axios({
-    method: 'GET',
-    url,
-  })
+const sendRequest = async (request: AxiosPromise) => {
+  return request
     .then((res) => {
-      return null;
+      const { data, status } = res;
+      if (status === 200 && data) return data;
     })
     .catch((err) => {
       return null;
     });
 };
 
-export const sendSearch = async (search: string) => {
-  const url = `${base}/`;
-  return await axios({
-    method: 'PUT',
-    url,
-    data: {
-      keyword: search,
-    },
-  })
-    .then((res) => {
-      return null;
+export const fetchTrendingTopics = async () => {
+  const url = `${base}/trending-topics`;
+  return sendRequest(
+    axios({
+      method: 'GET',
+      url,
     })
-    .catch((err) => {
-      return null;
-    });
+  );
+};
+
+export const sendSearch = async (search: string) => {
+  return sendRequest(
+    axios({
+      method: 'POST',
+      url: base,
+      data: {
+        keyword: search,
+      },
+    })
+  );
 };
