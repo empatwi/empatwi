@@ -259,7 +259,7 @@ const Empatwi = (): JSX.Element => {
           setIsLoading(true);
           setSearched(search);
           // const response = await sendSearch(search);
-          const response = { ...dataMarvel };
+          const response = { ...dataLudmilla };
           if (response) {
             // @ts-ignore
             const { chart, colors, total } = parseGraphData(response);
