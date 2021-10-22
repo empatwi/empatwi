@@ -65,34 +65,10 @@ const backTrending = [
     tweet_volume: 95614,
   },
   {
-    name: 'Congratulations Jungkook',
-    tweet_volume: 60067,
-  },
-  {
-    name: 'Congratulations Jungkook',
-    tweet_volume: 60067,
-  },
-  {
-    name: 'Ben Simmons',
-    tweet_volume: 58200,
-  },
-  {
-    name: 'Ben Simmons',
-    tweet_volume: 58200,
-  },
-  {
-    name: 'Ben Simmons',
-    tweet_volume: 58200,
-  },
-  {
     name: 'Cancelo',
     tweet_volume: 11715,
   },
   {
-    name: 'O Globo',
-    tweet_volume: 28471,
-  },
-  {
     name: 'PIRATA HOJE',
     tweet_volume: 10743,
   },
@@ -103,28 +79,12 @@ const backTrending = [
   {
     name: 'PIRATA HOJE',
     tweet_volume: 10743,
-  },
-  {
-    name: 'Besiktas',
-    tweet_volume: 63131,
-  },
-  {
-    name: 'Multishow',
-    tweet_volume: 25085,
   },
   {
     name: '#JENNIExChanelEvent',
     tweet_volume: 122133,
   },
   {
-    name: 'Thanos',
-    tweet_volume: 44310,
-  },
-  {
-    name: 'Sporting',
-    tweet_volume: 37767,
-  },
-  {
     name: 'COCO NEIGE',
     tweet_volume: 146151,
   },
@@ -135,22 +95,6 @@ const backTrending = [
   {
     name: 'COCO NEIGE',
     tweet_volume: 146151,
-  },
-  {
-    name: 'Lakers',
-    tweet_volume: 61300,
-  },
-  {
-    name: 'Lakers',
-    tweet_volume: 61300,
-  },
-  {
-    name: 'Lakers',
-    tweet_volume: 61300,
-  },
-  {
-    name: 'Lakers',
-    tweet_volume: 61300,
   },
   {
     name: 'Willow',
@@ -181,52 +125,12 @@ const backTrending = [
     tweet_volume: 73396,
   },
   {
-    name: 'Sixers',
-    tweet_volume: 28054,
-  },
-  {
-    name: 'Sixers',
-    tweet_volume: 28054,
-  },
-  {
-    name: 'Sixers',
-    tweet_volume: 28054,
-  },
-  {
-    name: 'Sixers',
-    tweet_volume: 28054,
-  },
-  {
     name: 'Cowboy Bebop',
     tweet_volume: 14824,
   },
-  {
-    name: 'Philadelphia',
-    tweet_volume: 34744,
-  },
-  {
-    name: 'Philadelphia',
-    tweet_volume: 34744,
-  },
-  {
-    name: 'Philadelphia',
-    tweet_volume: 34744,
-  },
-  {
-    name: 'Philadelphia',
-    tweet_volume: 34744,
-  },
-  {
-    name: 'Philadelphia',
-    tweet_volume: 34744,
-  },
-  {
-    name: 'Philadelphia',
-    tweet_volume: 34744,
-  },
 ];
 
-const backData = {
+const dataMarvel = {
   positive: 6,
   negative: 9,
   positives_explained: [
@@ -295,6 +199,38 @@ const backData = {
   ],
 };
 
+const dataLudmilla = {
+  positive: 2,
+  negative: 4,
+  positives_explained: [],
+  negatives_explained: [
+    {
+      word: 'amo',
+      relevance: -0.059,
+    },
+    {
+      word: 'né',
+      relevance: -0.1073,
+    },
+    {
+      word: 'imaginar',
+      relevance: -0.106,
+    },
+    {
+      word: 'né',
+      relevance: -0.108,
+    },
+    {
+      word: 'né',
+      relevance: -0.1075,
+    },
+    {
+      word: 'piar',
+      relevance: -0.1259,
+    },
+  ],
+};
+
 const Empatwi = (): JSX.Element => {
   /* =====+ useState +===== */
   const [chart, setChart] = useState<GraphType | undefined>(undefined);
@@ -307,6 +243,7 @@ const Empatwi = (): JSX.Element => {
   const [trending, setTrending] = useState<TrendingDataType[] | null>(
     sortTrendingTopics(backTrending)
   );
+  console.log(trending);
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>(null);
 
   /* =====+ useCallback +===== */
@@ -322,74 +259,7 @@ const Empatwi = (): JSX.Element => {
           setIsLoading(true);
           setSearched(search);
           // const response = await sendSearch(search);
-          const response = {
-            positive: 6,
-            negative: 9,
-            positives_explained: [
-              {
-                word: 'confirmar',
-                relevance: 0.1136,
-              },
-              {
-                word: 'dar',
-                relevance: 0.1072,
-              },
-              {
-                word: 'gostar',
-                relevance: 0.0617,
-              },
-              {
-                word: 'novo',
-                relevance: 0.1567,
-              },
-              {
-                word: 'mundinho',
-                relevance: 0.0618,
-              },
-              {
-                word: 'mds',
-                relevance: 0.0896,
-              },
-            ],
-            negatives_explained: [
-              {
-                word: 'maior',
-                relevance: -0.1692,
-              },
-              {
-                word: 'cancelar',
-                relevance: -0.1301,
-              },
-              {
-                word: 'vida',
-                relevance: -0.195,
-              },
-              {
-                word: 'roubar',
-                relevance: -0.178,
-              },
-              {
-                word: 'lindar',
-                relevance: -0.1028,
-              },
-              {
-                word: 'tendo',
-                relevance: -0.063,
-              },
-              {
-                word: 'covid',
-                relevance: -0.0797,
-              },
-              {
-                word: 'né',
-                relevance: -0.1085,
-              },
-              {
-                word: 'entender',
-                relevance: -0.266,
-              },
-            ],
-          };
+          const response = { ...dataLudmilla };
           if (response) {
             // @ts-ignore
             const { chart, colors, total } = parseGraphData(response);
