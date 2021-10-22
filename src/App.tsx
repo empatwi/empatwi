@@ -227,210 +227,70 @@ const backTrending = [
 ];
 
 const backData = {
-  positive: 46,
-  negative: 15,
+  positive: 6,
+  negative: 9,
   positives_explained: [
     {
-      word: 'vir',
-      relevance: 0.1184,
+      word: 'confirmar',
+      relevance: 0.1136,
     },
     {
-      word: 'melhor',
-      relevance: 0.078,
+      word: 'dar',
+      relevance: 0.1072,
     },
     {
-      word: 'vir',
-      relevance: 0.1283,
+      word: 'gostar',
+      relevance: 0.0617,
     },
     {
-      word: 'flamengo',
-      relevance: 0.1132,
+      word: 'novo',
+      relevance: 0.1567,
     },
     {
-      word: 'meter',
-      relevance: 0.0579,
-    },
-    {
-      word: 'flamengo',
-      relevance: 0.1162,
-    },
-    {
-      word: 'linda',
-      relevance: 0.0628,
-    },
-    {
-      word: 'cabelo',
-      relevance: 0.1163,
-    },
-    {
-      word: 'chamar',
-      relevance: 0.0915,
-    },
-    {
-      word: 'picoliportal',
-      relevance: 0,
-    },
-    {
-      word: 'sábado',
+      word: 'mundinho',
       relevance: 0.0618,
     },
     {
-      word: 'peito',
-      relevance: 0.0619,
-    },
-    {
-      word: 'ano',
-      relevance: 0.1158,
-    },
-    {
-      word: 'bom',
-      relevance: 0.2389,
-    },
-    {
-      word: 'limão',
-      relevance: 0.1104,
-    },
-    {
-      word: 'fazer',
-      relevance: 0.0734,
-    },
-    {
-      word: 'bom',
-      relevance: 0.2097,
-    },
-    {
-      word: 'bom',
-      relevance: 0.2297,
-    },
-    {
-      word: 'feliz',
-      relevance: 0.1533,
-    },
-    {
-      word: 'fla',
-      relevance: 0,
-    },
-    {
-      word: 'bom',
-      relevance: 0.2075,
-    },
-    {
-      word: 'bom',
-      relevance: 0.2394,
-    },
-    {
-      word: 'caaaaaro',
-      relevance: 0,
-    },
-    {
-      word: 'flamengo',
-      relevance: 0.1132,
-    },
-    {
-      word: 'responder',
-      relevance: 0.0466,
-    },
-    {
-      word: 'chegar',
-      relevance: 0.1609,
-    },
-    {
-      word: 'merecer',
-      relevance: 0.1173,
-    },
-    {
-      word: 'zerou',
-      relevance: 0,
-    },
-    {
-      word: 'camisa',
-      relevance: 0.0864,
-    },
-    {
-      word: 'ano',
-      relevance: 0.1091,
-    },
-    {
-      word: 'deus',
-      relevance: 0.1301,
+      word: 'mds',
+      relevance: 0.0896,
     },
   ],
   negatives_explained: [
     {
-      word: 'bola',
-      relevance: -0.1345,
+      word: 'maior',
+      relevance: -0.1692,
     },
     {
-      word: 'dever',
-      relevance: -0.1443,
+      word: 'cancelar',
+      relevance: -0.1301,
     },
     {
-      word: 'começar',
+      word: 'vida',
+      relevance: -0.195,
+    },
+    {
+      word: 'roubar',
+      relevance: -0.178,
+    },
+    {
+      word: 'lindar',
+      relevance: -0.1028,
+    },
+    {
+      word: 'tendo',
       relevance: -0.063,
     },
     {
-      word: 'ler',
+      word: 'covid',
       relevance: -0.0797,
     },
     {
-      word: 'dia',
-      relevance: -0.2401,
+      word: 'né',
+      relevance: -0.1085,
     },
     {
-      word: 'acabar',
-      relevance: -0.1065,
-    },
-    {
-      word: 'dia',
-      relevance: -0.2529,
-    },
-    {
-      word: 'continuar',
-      relevance: -0.1068,
-    },
-    {
-      word: 'vencer',
-      relevance: -0.0762,
-    },
-    {
-      word: 'quantos',
-      relevance: -0.0797,
-    },
-    {
-      word: 'cima',
-      relevance: -0.0797,
-    },
-    {
-      word: 'começar',
-      relevance: -0.0636,
-    },
-    {
-      word: 'mundo',
-      relevance: -0.151,
-    },
-    {
-      word: 'insta',
-      relevance: -0.0769,
-    },
-    {
-      word: 'amiga',
-      relevance: -0.079,
-    },
-    {
-      word: 'dia',
-      relevance: -0.2358,
-    },
-    {
-      word: 'parar',
-      relevance: -0.0636,
-    },
-    {
-      word: 'querer',
-      relevance: -0.149,
-    },
-    {
-      word: 'ninguém',
-      relevance: -0.0786,
+      word: 'entender',
+      relevance: -0.266,
     },
   ],
 };
@@ -751,7 +611,7 @@ const Empatwi = (): JSX.Element => {
                             fontName: 'Oxygen',
                             fontSize: 16,
                           },
-                          pieStartAngle: 90,
+                          // pieStartAngle: 90,
                         }}
                       />
 
