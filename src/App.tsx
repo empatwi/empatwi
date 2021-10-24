@@ -50,13 +50,13 @@ const Empatwi = (): JSX.Element => {
           if (response) {
             // @ts-ignore
             const { chart, colors, total } = parseGraphData(response);
+            // @ts-ignore
+            setWordcloud(parseWordcloudData(response));
             setChart(chart);
             setChartColors(colors);
             setTotal(total);
-            // @ts-ignore
-            setWordcloud(parseWordcloudData(response));
+            setIsLoading(false);
           }
-          setIsLoading(false);
         }
       }
       if (!isLoading) fetchData();
