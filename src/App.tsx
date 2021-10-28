@@ -26,6 +26,7 @@ const Empatwi = (): JSX.Element => {
   /* =====+ useState +===== */
   const [chart, setChart] = useState<GraphType | undefined>(undefined);
   const [chartColors, setChartColors] = useState<Array<string>>();
+  const [error, setError] = useState('');
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingTrends, setIsLoadingTrends] = useState(true);
@@ -99,6 +100,7 @@ const Empatwi = (): JSX.Element => {
       const response = await fetchTrendingTopics();
       // @ts-ignore
       if (response) setTrending(sortTrendingTopics(response));
+      else setError(Text.ERROR_TRENDS);
     }
     fetchData();
   }, []);
@@ -155,9 +157,15 @@ const Empatwi = (): JSX.Element => {
                   {Text.ASSUNTOS_DO_MOMENTO}
                 </p>
                 {isLoadingTrends ? (
-                  <div className="flex justify-center pb-8px">
-                    <ReactLoading height={56} type="spin" width={56} />
-                  </div>
+                  error ? (
+                    <div className="flex justify-center text-md font-medium px-16px pb-8px">
+                      {error}
+                    </div>
+                  ) : (
+                    <div className="flex justify-center pb-8px">
+                      <ReactLoading height={56} type="spin" width={56} />
+                    </div>
+                  )
                 ) : (
                   <div className="pl-16px">
                     {trending?.map((trend, index) => {

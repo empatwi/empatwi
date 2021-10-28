@@ -5,6 +5,7 @@ export enum Text {
   DISCLAIMER_2 = 'Não nos responsabilizamos por qualquer conteúdo ofensivo.',
   DISCLAIMER_SYMBOL = '*',
   EMPATWI_2021 = '© Empatwi 2021',
+  ERROR_TRENDS = 'Oops! Parece que não conseguimos um retorno do Twitter no momento. Tente novamente daqui a pouco!',
   O_QUE_ESTAO_PENSANDO_SOBRE = 'O que estão pensando sobre...?',
   QUANTIDADE = 'Quantidade',
   RESULTADOS_DA_BUSCA_POR = 'resultados da busca por',
