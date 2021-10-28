@@ -13,7 +13,7 @@ const sendRequest = async (request: AxiosPromise) => {
   return request
     .then((res) => {
       const { data, status } = res;
-      if (status === 200 && data) return data === 500 ? null : data;
+      if (status === 200 && data) return Number.isInteger(data) ? null : data;
     })
     .catch((err) => {
       return null;

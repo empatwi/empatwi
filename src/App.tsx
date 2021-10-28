@@ -40,6 +40,8 @@ const Empatwi = (): JSX.Element => {
     setInput(event?.target?.value);
   }, []);
 
+  const resetError = useCallback(() => setError(''), []);
+
   const search = useCallback(
     (trend?: string) => {
       async function fetchData() {
@@ -47,7 +49,10 @@ const Empatwi = (): JSX.Element => {
         if (search) {
           setIsLoading(true);
           setSearched(search);
+
+          resetError();
           const response = await sendSearch(search);
+
           if (response) {
             // @ts-ignore
             const { chart, colors, total } = parseGraphData(response);
@@ -57,12 +62,12 @@ const Empatwi = (): JSX.Element => {
             setChartColors(colors);
             setTotal(total);
             setIsLoading(false);
-          }
+          } else setError(Text.ERROR_RESULTS);
         }
       }
-      if (!isLoading) fetchData();
+      if (!isLoading || (isLoading && error)) fetchData();
     },
-    [input, isLoading]
+    [error, input, isLoading, resetError]
   );
 
   const handleClickSearch = useCallback((trend) => search(trend), [search]);
@@ -97,13 +102,14 @@ const Empatwi = (): JSX.Element => {
   // State initialization
   useEffect(() => {
     async function fetchData() {
+      resetError();
       const response = await fetchTrendingTopics();
       // @ts-ignore
       if (response) setTrending(sortTrendingTopics(response));
       else setError(Text.ERROR_TRENDS);
     }
     fetchData();
-  }, []);
+  }, [resetError]);
 
   // State updates
   useEffect(() => {
@@ -158,9 +164,7 @@ const Empatwi = (): JSX.Element => {
                 </p>
                 {isLoadingTrends ? (
                   error ? (
-                    <div className="flex justify-center text-md font-medium px-16px pb-8px">
-                      {error}
-                    </div>
+                    <div className="px-16px pb-8px">{error}</div>
                   ) : (
                     <div className="flex justify-center pb-8px">
                       <ReactLoading height={56} type="spin" width={56} />
@@ -172,7 +176,7 @@ const Empatwi = (): JSX.Element => {
                       return (
                         <div
                           className={`inline-flex mr-16px mb-8px lg:mb-16px ${
-                            isLoading ? 'opacity-50' : 'opacity-100'
+                            isLoading && !error ? 'opacity-50' : 'opacity-100'
                           }`}
                           key={index}
                         >
@@ -180,7 +184,7 @@ const Empatwi = (): JSX.Element => {
                             render={
                               <Chip
                                 style={`${
-                                  isLoading
+                                  isLoading && !error
                                     ? 'text-opacity-50'
                                     : 'text-opacity-100'
                                 }`}
@@ -236,9 +240,13 @@ const Empatwi = (): JSX.Element => {
               {/* Bottom */}
               <div className="flex flex-col">
                 {isLoading ? (
-                  <div className="flex justify-center pt-24px">
-                    <ReactLoading height={56} type="bubbles" width={56} />
-                  </div>
+                  error ? (
+                    <div className="pt-16px">{error}</div>
+                  ) : (
+                    <div className="flex justify-center pt-24px">
+                      <ReactLoading height={56} type="bubbles" width={56} />
+                    </div>
+                  )
                 ) : (
                   <>
                     {/* Wordcloud */}
@@ -283,7 +291,7 @@ const Empatwi = (): JSX.Element => {
                       {/* Legend */}
                       <div
                         className={`${
-                          isLoading ? 'hidden' : 'block'
+                          isLoading && !error ? 'hidden' : 'block'
                         } text-right font-semibold`}
                       >
                         {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
