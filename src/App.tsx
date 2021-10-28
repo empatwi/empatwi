@@ -117,27 +117,15 @@ const Empatwi = (): JSX.Element => {
   }, [trending]);
 
   return (
-    <div className="h-screen flex flex-col justify-between font-oxygen text-white">
+    <div className="flex flex-col justify-between h-screen text-white font-oxygen">
       {/* App */}
-      <div className="sm:h-full flex flex-col text-gray bg-white sm:flex-row">
+      <div className="flex flex-col bg-white sm:h-full text-gray sm:flex-row">
         {/* Left */}
-        <div
-          className="
-            flex flex-col justify-between
-          border-gray border-b-2
-            sm:w-48% sm:border-b-0 sm:border-r-2"
-        >
+        <div className="flex flex-col justify-between border-gray border-b-2 sm:w-48% sm:border-b-0 sm:border-r-2">
           {/* Content */}
-          <div
-            className="
-            h-full flex flex-col justify-center
-            px-16px lg:px-32px xl:px-48px"
-          >
+          <div className="flex flex-col justify-center h-full px-16px lg:px-32px xl:px-48px">
             {/* Header */}
-            <div
-              className="flex flex-col
-              pt-32px sm:px-0 sm:pt-0 sm:-mt-32px lg:px-32px"
-            >
+            <div className="flex flex-col pt-32px sm:px-0 sm:pt-0 sm:-mt-32px lg:px-32px">
               {/* Logo */}
               <div className="flex justify-center">
                 <div className="w-full max-w-2xs pb-8px">
@@ -211,10 +199,9 @@ const Empatwi = (): JSX.Element => {
 
         {/* Right */}
         <div
-          className={`
-            flex flex-col ${isLoading ? 'justify-center' : 'justify-evenly'}
-            px-16px md:px-32px xl:px-80px sm:w-52%
-          bg-green-light`}
+          className={`flex flex-col ${
+            isLoading ? 'justify-center' : 'justify-evenly'
+          } px-16px md:px-32px xl:px-80px sm:w-52% bg-green-light`}
         >
           {searched ? (
             <>
@@ -250,9 +237,9 @@ const Empatwi = (): JSX.Element => {
                 ) : (
                   <>
                     {/* Wordcloud */}
-                    <div className="w-full flex justify-center">
+                    <div className="flex justify-center w-full">
                       <ShadowBox padding="p-0">
-                        <div className="flex items-center text-center font-semibold">
+                        <div className="flex items-center font-semibold text-center">
                           <TagCloud
                             maxSize={wordcloudTextSize.max}
                             minSize={wordcloudTextSize.min}
@@ -302,11 +289,7 @@ const Empatwi = (): JSX.Element => {
               </div>
             </>
           ) : (
-            <div
-              className="
-                flex flex-col
-                text-md font-medium text-center"
-            >
+            <div className="flex flex-col font-medium text-center text-md">
               <p className="text-2xl font-semibold pb-32px">{Text.WELCOME}</p>
               <p className="text-left pb-16px">
                 {Text.TIP_1}

@@ -7,14 +7,7 @@ const defaultProps = {};
 
 const Footer = ({ leftItems, rightItems }: FooterProps): JSX.Element => {
   return (
-    <div
-      className={`
-        h-footer w-full
-        flex items-center justify-between
-        px-16px py-40px sm:py-0
-      bg-black text-white
-      `}
-    >
+    <div className="flex items-center justify-between w-full text-white bg-black h-footer px-16px py-40px sm:py-0">
       {leftItems}
       <div>{rightItems}</div>
     </div>
