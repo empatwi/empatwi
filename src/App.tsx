@@ -214,13 +214,13 @@ const Empatwi = (): JSX.Element => {
                 <p className="header-text">
                   {Text.RESULTADOS_DA_BUSCA_POR}
                   {isLoading ? Text.SPACE : null}
-                  <p
-                    className={`header-text truncate underline text-green ${
-                      isLoading ? 'inline' : 'block'
-                    }`}
-                  >
-                    {searched}
-                  </p>
+                </p>
+                <p
+                  className={`header-text truncate underline text-green ${
+                    isLoading ? 'inline' : 'block'
+                  }`}
+                >
+                  {searched}
                 </p>
               </div>
 
