@@ -15,6 +15,7 @@ export enum Text {
   TIP_2 = 'Basta digitar no campo de pesquisa que o nosso modelo de Inteligência Artificial cuida do resto. Ou, se preferir, já disponibilizamos os assuntos mais comentados do Twitter no Brasil para te guiar.',
   TOTAL = 'Total',
   TWEETS = 'Tweets',
+  TWEET_ANALISADO = 'tweet analisado',
   TWEETS_ANALISADOS = 'tweets analisados',
   TWEETS_NEGATIVOS = 'tweets negativos',
   TWEETS_POSITIVOS = 'tweets positivos',

@@ -209,7 +209,7 @@ const Empatwi = (): JSX.Element => {
               <div
                 className={`${
                   isLoading ? 'text-center' : 'text-right'
-                } pt-64px pb-32px sm:p-0`}
+                } pt-40 pb-32px sm:p-0`}
               >
                 <p className="header-text">
                   {Text.RESULTADOS_DA_BUSCA_POR}
@@ -228,9 +228,9 @@ const Empatwi = (): JSX.Element => {
               <div className="flex flex-col">
                 {isLoading ? (
                   error ? (
-                    <div className="pt-16px">{error}</div>
+                    <div className="pb-40 pt-16px sm:pb-0">{error}</div>
                   ) : (
-                    <div className="flex justify-center pt-24px">
+                    <div className="flex justify-center pb-40 pt-8px sm:pb-0">
                       <ReactLoading height={56} type="bubbles" width={56} />
                     </div>
                   )
@@ -238,7 +238,11 @@ const Empatwi = (): JSX.Element => {
                   <>
                     {/* Wordcloud */}
                     <div className="flex justify-center w-full">
-                      <ShadowBox padding="p-0">
+                      <ShadowBox
+                        padding={`p-0 ${
+                          wordcloud && wordcloud?.length <= 5 ? 'p-16px' : ''
+                        }`}
+                      >
                         <div className="flex items-center font-semibold text-center">
                           <TagCloud
                             maxSize={wordcloudTextSize.max}
@@ -281,7 +285,10 @@ const Empatwi = (): JSX.Element => {
                           isLoading && !error ? 'hidden' : 'block'
                         } text-right font-semibold`}
                       >
-                        {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
+                        {Text.TOTAL}: {total}{' '}
+                        {total > 1
+                          ? Text.TWEETS_ANALISADOS
+                          : Text.TWEET_ANALISADO}
                       </div>
                     </div>
                   </>
