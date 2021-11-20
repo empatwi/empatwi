@@ -26,6 +26,7 @@ const Empatwi = (): JSX.Element => {
   /* =====+ useState +===== */
   const [chart, setChart] = useState<GraphType | undefined>(undefined);
   const [chartColors, setChartColors] = useState<Array<string>>();
+  const [error, setError] = useState('');
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingTrends, setIsLoadingTrends] = useState(true);
@@ -39,6 +40,8 @@ const Empatwi = (): JSX.Element => {
     setInput(event?.target?.value);
   }, []);
 
+  const resetError = useCallback(() => setError(''), []);
+
   const search = useCallback(
     (trend?: string) => {
       async function fetchData() {
@@ -46,7 +49,10 @@ const Empatwi = (): JSX.Element => {
         if (search) {
           setIsLoading(true);
           setSearched(search);
+
+          resetError();
           const response = await sendSearch(search);
+
           if (response) {
             // @ts-ignore
             const { chart, colors, total } = parseGraphData(response);
@@ -56,12 +62,12 @@ const Empatwi = (): JSX.Element => {
             setChartColors(colors);
             setTotal(total);
             setIsLoading(false);
-          }
+          } else setError(Text.ERROR_RESULTS);
         }
       }
-      if (!isLoading) fetchData();
+      if (!isLoading || (isLoading && error)) fetchData();
     },
-    [input, isLoading]
+    [error, input, isLoading, resetError]
   );
 
   const handleClickSearch = useCallback((trend) => search(trend), [search]);
@@ -96,12 +102,14 @@ const Empatwi = (): JSX.Element => {
   // State initialization
   useEffect(() => {
     async function fetchData() {
+      resetError();
       const response = await fetchTrendingTopics();
       // @ts-ignore
       if (response) setTrending(sortTrendingTopics(response));
+      else setError(Text.ERROR_TRENDS);
     }
     fetchData();
-  }, []);
+  }, [resetError]);
 
   // State updates
   useEffect(() => {
@@ -109,27 +117,15 @@ const Empatwi = (): JSX.Element => {
   }, [trending]);
 
   return (
-    <div className="h-screen flex flex-col justify-between font-oxygen text-white">
+    <div className="flex flex-col justify-between h-screen text-white font-oxygen">
       {/* App */}
-      <div className="sm:h-full flex flex-col text-gray bg-white sm:flex-row">
+      <div className="flex flex-col bg-white sm:h-full text-gray sm:flex-row">
         {/* Left */}
-        <div
-          className="
-            flex flex-col justify-between
-          border-gray border-b-2
-            sm:w-48% sm:border-b-0 sm:border-r-2"
-        >
+        <div className="flex flex-col justify-between border-gray border-b-2 sm:w-48% sm:border-b-0 sm:border-r-2">
           {/* Content */}
-          <div
-            className="
-            h-full flex flex-col justify-center
-            px-16px lg:px-32px xl:px-48px"
-          >
+          <div className="flex flex-col justify-center h-full px-16px lg:px-32px xl:px-48px">
             {/* Header */}
-            <div
-              className="flex flex-col
-              pt-32px sm:px-0 sm:pt-0 sm:-mt-32px lg:px-32px"
-            >
+            <div className="flex flex-col pt-32px sm:px-0 sm:pt-0 sm:-mt-32px lg:px-32px">
               {/* Logo */}
               <div className="flex justify-center">
                 <div className="w-full max-w-2xs pb-8px">
@@ -155,16 +151,20 @@ const Empatwi = (): JSX.Element => {
                   {Text.ASSUNTOS_DO_MOMENTO}
                 </p>
                 {isLoadingTrends ? (
-                  <div className="flex justify-center pb-8px">
-                    <ReactLoading height={56} type="spin" width={56} />
-                  </div>
+                  error ? (
+                    <div className="px-16px pb-8px">{error}</div>
+                  ) : (
+                    <div className="flex justify-center pb-8px">
+                      <ReactLoading height={56} type="spin" width={56} />
+                    </div>
+                  )
                 ) : (
                   <div className="pl-16px">
                     {trending?.map((trend, index) => {
                       return (
                         <div
                           className={`inline-flex mr-16px mb-8px lg:mb-16px ${
-                            isLoading ? 'opacity-50' : 'opacity-100'
+                            isLoading && !error ? 'opacity-50' : 'opacity-100'
                           }`}
                           key={index}
                         >
@@ -172,7 +172,7 @@ const Empatwi = (): JSX.Element => {
                             render={
                               <Chip
                                 style={`${
-                                  isLoading
+                                  isLoading && !error
                                     ? 'text-opacity-50'
                                     : 'text-opacity-100'
                                 }`}
@@ -199,10 +199,9 @@ const Empatwi = (): JSX.Element => {
 
         {/* Right */}
         <div
-          className={`
-            flex flex-col ${isLoading ? 'justify-center' : 'justify-evenly'}
-            px-16px md:px-32px xl:px-80px sm:w-52%
-          bg-green-light`}
+          className={`flex flex-col ${
+            isLoading ? 'justify-center' : 'justify-evenly'
+          } px-16px md:px-32px xl:px-80px sm:w-52% bg-green-light`}
         >
           {searched ? (
             <>
@@ -228,15 +227,19 @@ const Empatwi = (): JSX.Element => {
               {/* Bottom */}
               <div className="flex flex-col">
                 {isLoading ? (
-                  <div className="flex justify-center pt-24px">
-                    <ReactLoading height={56} type="bubbles" width={56} />
-                  </div>
+                  error ? (
+                    <div className="pt-16px">{error}</div>
+                  ) : (
+                    <div className="flex justify-center pt-24px">
+                      <ReactLoading height={56} type="bubbles" width={56} />
+                    </div>
+                  )
                 ) : (
                   <>
                     {/* Wordcloud */}
-                    <div className="w-full flex justify-center">
+                    <div className="flex justify-center w-full">
                       <ShadowBox padding="p-0">
-                        <div className="flex items-center text-center font-semibold">
+                        <div className="flex items-center font-semibold text-center">
                           <TagCloud
                             maxSize={wordcloudTextSize.max}
                             minSize={wordcloudTextSize.min}
@@ -275,7 +278,7 @@ const Empatwi = (): JSX.Element => {
                       {/* Legend */}
                       <div
                         className={`${
-                          isLoading ? 'hidden' : 'block'
+                          isLoading && !error ? 'hidden' : 'block'
                         } text-right font-semibold`}
                       >
                         {Text.TOTAL}: {total} {Text.TWEETS_ANALISADOS}
@@ -286,11 +289,7 @@ const Empatwi = (): JSX.Element => {
               </div>
             </>
           ) : (
-            <div
-              className="
-                flex flex-col
-                text-md font-medium text-center"
-            >
+            <div className="flex flex-col font-medium text-center text-md">
               <p className="text-2xl font-semibold pb-32px">{Text.WELCOME}</p>
               <p className="text-left pb-16px">
                 {Text.TIP_1}

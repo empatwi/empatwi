@@ -29,11 +29,11 @@ const TextInput = ({
   return (
     <div className="relative flex items-center">
       <input
-        className={`
-          appearance-none w-full border-gray border-1 rounded-16px
-          shadow text-lg ${textColor} sm:text-sm md:text-lg
-          pl-16px pr-40px py-8px
+        className={`w-full text-lg shadow appearance-none
+          border-gray border-1 rounded-16px
+          sm:text-sm md:text-lg pl-16px pr-40px py-8px
           focus focus:border-green focus:outline-none
+          ${textColor}
         `}
         onChange={onChange}
         onKeyPress={handleEnter}
