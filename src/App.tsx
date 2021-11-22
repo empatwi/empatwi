@@ -35,6 +35,8 @@ const Empatwi = (): JSX.Element => {
   const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>(null);
 
+  console.log(chart);
+
   /* =====+ useCallback +===== */
   const handleInputChange = useCallback((event) => {
     setInput(event?.target?.value);
@@ -270,6 +272,10 @@ const Empatwi = (): JSX.Element => {
                           colors: chartColors,
                           legend: 'none',
                           pieHole: 0.4,
+                          pieSliceText:
+                            chart && (chart[1][1] === 0 || chart[2][1] === 0)
+                              ? 'none'
+                              : 'percentage',
                           pieSliceTextStyle: {
                             color: '#FFFFFF',
                             fontName: 'Oxygen',
