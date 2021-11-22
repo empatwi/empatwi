@@ -7,6 +7,7 @@ export enum Text {
   EMPATWI_2021 = '© Empatwi 2021',
   ERROR_RESULTS = 'Oops! Parece que não conseguimos um retorno sobre isso no momento. Que tal tentar outro assunto?',
   ERROR_TRENDS = 'Oops! Parece que não conseguimos um retorno do Twitter no momento. Tente novamente daqui a pouco!',
+  LOADING = 'isso pode levar até 30 segundos!',
   O_QUE_ESTAO_PENSANDO_SOBRE = 'O que estão pensando sobre...?',
   QUANTIDADE = 'Quantidade',
   RESULTADOS_DA_BUSCA_POR = 'resultados da busca por',
@@ -15,9 +16,9 @@ export enum Text {
   TIP_2 = 'Basta digitar no campo de pesquisa que o nosso modelo de Inteligência Artificial cuida do resto. Ou, se preferir, já disponibilizamos os assuntos mais comentados do Twitter no Brasil para te guiar.',
   TOTAL = 'Total',
   TWEETS = 'Tweets',
-  TWEET_ANALISADO = 'tweet analisado',
   TWEETS_ANALISADOS = 'tweets analisados',
   TWEETS_NEGATIVOS = 'tweets negativos',
   TWEETS_POSITIVOS = 'tweets positivos',
+  TWEET_ANALISADO = 'tweet analisado',
   WELCOME = 'Bem-vindo ao Empatwi!',
 }
