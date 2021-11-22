@@ -35,7 +35,7 @@ const Empatwi = (): JSX.Element => {
   const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>(null);
 
-  console.log(chart);
+  console.log(wordcloud);
 
   /* =====+ useCallback +===== */
   const handleInputChange = useCallback((event) => {
@@ -59,7 +59,7 @@ const Empatwi = (): JSX.Element => {
             // @ts-ignore
             const { chart, colors, total } = parseGraphData(response);
             // @ts-ignore
-            setWordcloud(parseWordcloudData(response));
+            // setWordcloud(parseWordcloudData(response));
             setChart(chart);
             setChartColors(colors);
             setTotal(total);
@@ -202,7 +202,9 @@ const Empatwi = (): JSX.Element => {
         {/* Right */}
         <div
           className={`flex flex-col ${
-            isLoading ? 'justify-center' : 'justify-evenly'
+            isLoading || (!isLoading && !wordcloud?.length)
+              ? 'justify-center'
+              : 'justify-evenly'
           } px-16px md:px-32px xl:px-80px sm:w-52% bg-green-light`}
         >
           {searched ? (
@@ -239,21 +241,23 @@ const Empatwi = (): JSX.Element => {
                 ) : (
                   <>
                     {/* Wordcloud */}
-                    <div className="flex justify-center w-full">
-                      <ShadowBox
-                        padding={`p-0 ${
-                          wordcloud && wordcloud?.length <= 5 ? 'p-16px' : ''
-                        }`}
-                      >
-                        <div className="flex items-center font-semibold text-center">
-                          <TagCloud
-                            maxSize={wordcloudTextSize.max}
-                            minSize={wordcloudTextSize.min}
-                            tags={wordcloud ?? []}
-                          />
-                        </div>
-                      </ShadowBox>
-                    </div>
+                    {wordcloud?.length ? (
+                      <div className="flex justify-center w-full">
+                        <ShadowBox
+                          padding={`p-0 ${
+                            wordcloud.length <= 5 ? 'p-16px' : ''
+                          }`}
+                        >
+                          <div className="flex items-center font-semibold text-center">
+                            <TagCloud
+                              maxSize={wordcloudTextSize.max}
+                              minSize={wordcloudTextSize.min}
+                              tags={wordcloud}
+                            />
+                          </div>
+                        </ShadowBox>
+                      </div>
+                    ) : null}
 
                     {/* Graph */}
                     <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
