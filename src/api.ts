@@ -1,7 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
 import { Context } from './constants';
 
-const context = Context.DEV;
+const context = Context.PROD;
 
 const base =
   // @ts-ignore
