@@ -200,7 +200,9 @@ const Empatwi = (): JSX.Element => {
         {/* Right */}
         <div
           className={`flex flex-col ${
-            isLoading || (!isLoading && !wordcloud?.length)
+            isLoading ||
+            (!isLoading && !wordcloud?.length) ||
+            (!isLoading && !chart)
               ? 'justify-center'
               : 'justify-evenly'
           } px-16px md:px-32px xl:px-80px sm:w-52% bg-green-light`}
@@ -243,7 +245,11 @@ const Empatwi = (): JSX.Element => {
                   <>
                     {/* Wordcloud */}
                     {wordcloud?.length ? (
-                      <div className="flex justify-center w-full">
+                      <div
+                        className={`flex justify-center w-full ${
+                          !chart ? 'pb-40 sm:pt-32px sm:pb-0' : ''
+                        }`}
+                      >
                         <ShadowBox
                           padding={`p-0 ${
                             wordcloud.length <= 5 ? 'p-16px' : ''
@@ -261,47 +267,53 @@ const Empatwi = (): JSX.Element => {
                     ) : null}
 
                     {/* Graph */}
-                    <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
-                      <Chart
-                        chartType="PieChart"
-                        data={chart}
-                        height="35vh"
-                        loader={
-                          <div className="flex justify-center text-white">
-                            {Text.CARREGANDO}
-                          </div>
-                        }
-                        options={{
-                          backgroundColor: Colors.GREEN_LIGHT,
-                          chartArea: { height: '95%', left: 0, width: '100%' },
-                          colors: chartColors,
-                          legend: 'none',
-                          pieHole: 0.4,
-                          pieSliceText:
-                            chart && (chart[1][1] === 0 || chart[2][1] === 0)
-                              ? 'none'
-                              : 'percentage',
-                          pieSliceTextStyle: {
-                            color: '#FFFFFF',
-                            fontName: 'Oxygen',
-                            fontSize: 16,
-                          },
-                          pieStartAngle: 90,
-                        }}
-                      />
+                    {chart ? (
+                      <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
+                        <Chart
+                          chartType="PieChart"
+                          data={chart}
+                          height="35vh"
+                          loader={
+                            <div className="flex justify-center text-white">
+                              {Text.CARREGANDO}
+                            </div>
+                          }
+                          options={{
+                            backgroundColor: Colors.GREEN_LIGHT,
+                            chartArea: {
+                              height: '95%',
+                              left: 0,
+                              width: '100%',
+                            },
+                            colors: chartColors,
+                            legend: 'none',
+                            pieHole: 0.4,
+                            pieSliceText:
+                              chart[1][1] === 0 || chart[2][1] === 0
+                                ? 'none'
+                                : 'percentage',
+                            pieSliceTextStyle: {
+                              color: '#FFFFFF',
+                              fontName: 'Oxygen',
+                              fontSize: 16,
+                            },
+                            pieStartAngle: 90,
+                          }}
+                        />
 
-                      {/* Legend */}
-                      <div
-                        className={`${
-                          isLoading && !error ? 'hidden' : 'block'
-                        } text-right font-semibold`}
-                      >
-                        {Text.TOTAL}: {total}{' '}
-                        {total > 1
-                          ? Text.TWEETS_ANALISADOS
-                          : Text.TWEET_ANALISADO}
+                        {/* Legend */}
+                        <div
+                          className={`${
+                            isLoading && !error ? 'hidden' : 'block'
+                          } text-right font-semibold`}
+                        >
+                          {Text.TOTAL}: {total}{' '}
+                          {total > 1
+                            ? Text.TWEETS_ANALISADOS
+                            : Text.TWEET_ANALISADO}
+                        </div>
                       </div>
-                    </div>
+                    ) : null}
                   </>
                 )}
               </div>

@@ -55,16 +55,18 @@ export const parseWordcloudData = (data: DataReturnType): WordcloudType[] => {
 /* ===+=== Graph ===+=== */
 export const parseGraphData = (
   data: DataReturnType
-): { chart: GraphType; colors: Array<string>; total: number } => {
+): { chart: GraphType | undefined; colors: Array<string>; total: number } => {
   const { negative, positive } = data;
 
   const total = positive + negative;
 
-  const chart = [
-    [Text.TWEETS, Text.QUANTIDADE],
-    [Text.TWEETS_POSITIVOS, positive],
-    [Text.TWEETS_NEGATIVOS, negative],
-  ];
+  const chart = total
+    ? [
+        [Text.TWEETS, Text.QUANTIDADE],
+        [Text.TWEETS_POSITIVOS, positive],
+        [Text.TWEETS_NEGATIVOS, negative],
+      ]
+    : undefined;
 
   const colors = [Colors.GREEN, Colors.RED];
 
