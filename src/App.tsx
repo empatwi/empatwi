@@ -224,7 +224,7 @@ const Empatwi = (): JSX.Element => {
                 >
                   {searched}
                 </p>
-                {isLoading ? (
+                {isLoading && !error ? (
                   <p className="text-xs truncate pt-8px">{Text.LOADING}</p>
                 ) : null}
               </div>
