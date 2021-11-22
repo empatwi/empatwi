@@ -35,8 +35,6 @@ const Empatwi = (): JSX.Element => {
   const [trending, setTrending] = useState<TrendingDataType[] | null>(null);
   const [wordcloud, setWordcloud] = useState<WordcloudType[] | null>(null);
 
-  console.log(wordcloud);
-
   /* =====+ useCallback +===== */
   const handleInputChange = useCallback((event) => {
     setInput(event?.target?.value);
@@ -59,7 +57,7 @@ const Empatwi = (): JSX.Element => {
             // @ts-ignore
             const { chart, colors, total } = parseGraphData(response);
             // @ts-ignore
-            // setWordcloud(parseWordcloudData(response));
+            setWordcloud(parseWordcloudData(response));
             setChart(chart);
             setChartColors(colors);
             setTotal(total);
