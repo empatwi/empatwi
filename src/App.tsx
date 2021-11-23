@@ -213,7 +213,7 @@ const Empatwi = (): JSX.Element => {
               <div
                 className={`${
                   isLoading ? 'text-center' : 'text-right'
-                } pt-40 pb-32px sm:p-0`}
+                } pt-20 pb-32px sm:p-0`}
               >
                 <p className="header-text">
                   {Text.RESULTADOS_DA_BUSCA_POR}
@@ -235,9 +235,9 @@ const Empatwi = (): JSX.Element => {
               <div className="flex flex-col">
                 {isLoading ? (
                   error ? (
-                    <div className="pb-40 pt-16px sm:pb-0">{error}</div>
+                    <div className="pb-20 pt-16px sm:pb-0">{error}</div>
                   ) : (
-                    <div className="flex justify-center pb-40 pt-8px sm:pb-0">
+                    <div className="flex justify-center pb-20 pt-8px sm:pb-0">
                       <ReactLoading height={56} type="bubbles" width={56} />
                     </div>
                   )
@@ -247,7 +247,7 @@ const Empatwi = (): JSX.Element => {
                     {wordcloud?.length ? (
                       <div
                         className={`flex justify-center w-full ${
-                          !chart ? 'pb-40 sm:pt-32px sm:pb-0' : ''
+                          !chart ? 'pb-20 sm:pt-32px sm:pb-0' : ''
                         }`}
                       >
                         <ShadowBox
@@ -268,7 +268,7 @@ const Empatwi = (): JSX.Element => {
 
                     {/* Graph */}
                     {chart ? (
-                      <div className="flex flex-col mt-32px mb-56px sm:mt-16px sm:mb-0">
+                      <div className="flex flex-col mb-20 mt-32px sm:mt-16px sm:mb-0">
                         <Chart
                           chartType="PieChart"
                           data={chart}
@@ -319,7 +319,7 @@ const Empatwi = (): JSX.Element => {
               </div>
             </>
           ) : (
-            <div className="flex flex-col py-40 font-medium text-center text-md sm:p-0">
+            <div className="flex flex-col py-24 font-medium text-center text-md sm:p-0">
               <p className="text-2xl font-semibold pb-32px">{Text.WELCOME}</p>
               <p className="text-left pb-16px">
                 {Text.TIP_1}
